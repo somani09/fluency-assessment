@@ -41,18 +41,20 @@ export const getCustomTooltipHTML = (
     : `<div class="text-heading text-2xl font-bold tracking-tight">${today} users</div>`;
 
   return `
-    <div class="w-[260px] rounded-lg border border-border/50 p-4 shadow-md ${glassPanelClass} bg-glass/10 backdrop-blur-3xl">
+  <div class="w-max h-max bg-white/60">
+    <div class="max-w-[300px] rounded-lg border border-border/50 p-4 shadow-md  bg-glass/5 backdrop-blur-3xl">
       <div class="flex justify-between text-xs font-semibold text-subheading mb-1">
         ${countDisplay}
         <span>${entry.date}</span>
       </div>
       <div class="border-t border-border/20 my-2"></div>
       <div class="flex flex-col gap-1 text-base text-text">
-        <div><span class="text-subheading font-bold uppercase text-sm">Source:</span> ${entry.source}</div>
-        <div><span class="text-subheading font-bold uppercase text-sm">Device:</span> ${entry.device}</div>
-        <div><span class="text-subheading font-bold uppercase text-sm">Location:</span> ${entry.location}</div>
+        <div class="text-wrap"><span class="text-subheading font-bold uppercase text-sm underline">Source:</span> ${entry.source}</div>
+        <div class="text-wrap"><span class="text-subheading font-bold uppercase text-sm underline">Device:</span> ${entry.device}</div>
+        <div class="text-wrap"><span class="text-subheading font-bold uppercase text-sm underline">Location:</span> ${entry.location}</div>
       </div>
     </div>
+  </div>
   `;
 };
 
