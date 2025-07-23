@@ -73,7 +73,7 @@ export default function ClientRoot({
           <Sidebar onClose={() => setSidebarOpen(false)} open={sidebarOpen} />
         </div>
 
-        <main className="h-max w-full flex-1 sm:pl-24">{children}</main>
+        <main className="h-max w-full flex-1 sm:pl-[120px]">{children}</main>
       </div>
     </ThemeProvider>
   );

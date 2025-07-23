@@ -30,7 +30,7 @@ export function getGlassButtonClasses(isActive: boolean) {
 }
 
 export const secondaryButtonClass = cn(
-  "rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200",
+  "rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 cursor-pointer",
   "bg-glass/5 hover:bg-glass/10 active:bg-glass/20",
   "border border-border/30 hover:border-border/60",
   "text-subheading hover:text-heading",

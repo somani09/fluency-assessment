@@ -40,13 +40,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
 
   const navItems = [
     {
-      href: "/user-growth",
-      label: "User Growth",
+      href: "/new-user",
+      label: "New User",
       icon: MdGroupAdd,
     },
     {
       href: "/user-change",
-      label: "User Change",
+      label: "User Gain/Loss",
       icon: FiUsers,
     },
   ];
@@ -60,15 +60,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
         className,
       )}
     >
-      {/* Close Button */}
       <FiChevronsLeft
         onClick={() => onClose?.()}
-        className="text-heading absolute -right-2 bottom-8 h-10 w-10 cursor-pointer"
+        className="text-heading absolute -right-2 bottom-8 block h-10 w-10 cursor-pointer sm:hidden"
         role="button"
         aria-label="Close sidebar"
       />
 
-      {/* Brand Section */}
       <div className="flex flex-col items-start space-y-4">
         <div className="flex items-center justify-center">
           <TbCircleLetterF
@@ -89,7 +87,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
         <hr className="border-accent mt-2 mb-4 w-full border-2" />
       </div>
 
-      {/* Navigation */}
       <nav className="absolute top-1/2 left-0 flex w-full -translate-y-1/2 flex-col items-center gap-10 p-6">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
@@ -123,9 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
         })}
       </nav>
 
-      {/* User Info + Projects */}
       <div>
-        {/* Projects */}
         <div
           className={cn(
             "flex items-end space-x-4 overflow-hidden pb-2 transition-all duration-300 ease-in-out",
@@ -146,7 +141,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
 
         <hr className="border-accent-1 mb-4 border-1" />
 
-        {/* Avatar + Name */}
         <div className="flex flex-col justify-start space-y-2">
           <div className={cn("flex space-x-6 transition-all duration-300")}>
             <div className="border-border bg-subheading relative h-15 w-15 shrink-0 overflow-hidden rounded-full border-2">
