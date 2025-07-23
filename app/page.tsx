@@ -8,7 +8,7 @@ const Home = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="flex h-max min-h-screen flex-col px-8 pt-12 sm:pl-32 md:pr-32">
+    <div className="flex h-max min-h-screen flex-col px-8 py-12">
       {/* Header */}
       <h1 className="text-primary text-4xl font-bold lg:text-6xl">
         {pageConfig.title}

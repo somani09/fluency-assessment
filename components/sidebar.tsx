@@ -4,107 +4,173 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn, shadowDepthPrimary } from "@/app/utils";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import { cn } from "@/app/utils";
+import { FiChevronsLeft, FiUsers } from "react-icons/fi";
+import { MdGroupAdd } from "react-icons/md";
+import { TbCircleLetterF } from "react-icons/tb";
+import {
+  glassPanelClass,
+  getGlassButtonClasses,
+  secondaryButtonClass,
+} from "@/app/css-utils";
 
 interface SidebarProps {
   className?: string;
   onClose?: () => void;
+  open?: boolean;
 }
 
-const navItems = [
-  { label: "Portfolio", href: "https://somani09.github.io/portfolio/" },
-  { label: "Projects", href: "https://vaibhav-somani.vercel.app/projects" },
-];
-
-const sidebarContainerClasses = cn(
-  "flex h-max w-96 flex-col justify-center overflow-hidden rounded-r-4xl p-6",
-  "bg-glass/20",
-  "border-primary/10 border-2",
-  "backdrop-blur-[6px]",
-  shadowDepthPrimary,
-);
-
-const navLinkBaseClasses =
-  "flex h-16 items-center rounded-2xl border px-8 py-2 text-lg transition";
-
-const activeNavLinkClasses = cn(
-  "bg-accent-2 border-secondary text-primary font-bold backdrop-blur-[6px] hover:border-accent-2 ",
-  shadowDepthPrimary,
-);
-
-const inactiveNavLinkClasses =
-  "bg-glass text-secondary border-primary hover:text-primary  hover:font-bold";
-
-const Sidebar: React.FC<SidebarProps> = ({ className, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
 
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node)
       ) {
         onClose?.();
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  const navItems = [
+    {
+      href: "/user-growth",
+      label: "User Growth",
+      icon: MdGroupAdd,
+    },
+    {
+      href: "/user-change",
+      label: "User Change",
+      icon: FiUsers,
+    },
+  ];
+
   return (
-    <aside ref={sidebarRef} className={cn(sidebarContainerClasses, className)}>
-      <IoIosCloseCircleOutline
+    <aside
+      ref={sidebarRef}
+      className={cn(
+        "relative flex h-screen w-full flex-col justify-between overflow-hidden p-6",
+        glassPanelClass,
+        className,
+      )}
+    >
+      {/* Close Button */}
+      <FiChevronsLeft
         onClick={() => onClose?.()}
-        className="text-primary absolute top-14 right-4 h-6 w-6 cursor-pointer"
+        className="text-heading absolute -right-2 bottom-8 h-10 w-10 cursor-pointer"
+        role="button"
+        aria-label="Close sidebar"
       />
 
-      <div>
-        <div className="flex items-center space-x-4">
-          <div className="bg-secondary border-primary relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-2">
-            <img
-              src="/avatar.jpeg"
-              alt="Avatar"
-              className="h-full w-full object-cover"
-            />
-          </div>{" "}
-          <div>
-            <p className="text-primary text-2xl font-bold">Vaibhav Somani</p>
-            <p className="text-secondary text-lg font-semibold">
-              Software Developer
-            </p>
-          </div>
+      {/* Brand Section */}
+      <div className="flex flex-col items-start space-y-4">
+        <div className="flex items-center justify-center">
+          <TbCircleLetterF
+            className={cn(
+              "text-heading ml-2 shrink-0 transition-all duration-300 ease-in-out",
+              "h-16 w-16",
+            )}
+          />
+          <span
+            className={cn(
+              "text-heading overflow-hidden text-7xl font-bold whitespace-nowrap transition-all duration-300 ease-in-out",
+              open ? "max-w-max opacity-100" : "opacity-0",
+            )}
+          >
+            Fluency
+          </span>
         </div>
+        <hr className="border-accent mt-2 mb-4 w-full border-2" />
+      </div>
 
-        <p className="text-text mt-4 text-base leading-relaxed">
-          Full-Stack Software Engineer | 3+ years of experience | Master’s in
-          CS, ASU | Expert in React.js, Next.js, TanStack, Tailwind, Figma |
-          Bringing designs to life.
-        </p>
-
-        <hr className="border-accent-1 my-6 border-1" />
-
-        <nav className="space-y-3">
-          {navItems.map(({ label, href }) => {
-            const isActive = pathname === href;
-
-            return (
-              <Link
-                key={href}
-                href={href}
+      {/* Navigation */}
+      <nav className="absolute top-1/2 left-0 flex w-full -translate-y-1/2 flex-col items-center gap-10 p-6">
+        {navItems.map(({ href, label, icon: Icon }) => {
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                getGlassButtonClasses(isActive),
+                "flex items-center gap-3 transition-all duration-300 ease-in-out",
+              )}
+            >
+              <Icon
                 className={cn(
-                  navLinkBaseClasses,
-                  isActive ? activeNavLinkClasses : inactiveNavLinkClasses,
+                  "h-8 w-8 shrink-0 transition",
+                  isActive
+                    ? "text-heading"
+                    : "text-subheading group-hover:text-heading group-active:text-heading",
+                )}
+              />
+              <span
+                className={cn(
+                  "overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out",
+                  open ? "max-w-xs pl-1 opacity-100" : "max-w-0 pl-0 opacity-0",
                 )}
               >
                 {label}
-              </Link>
-            );
-          })}
-        </nav>
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* User Info + Projects */}
+      <div>
+        {/* Projects */}
+        <div
+          className={cn(
+            "flex items-end space-x-4 overflow-hidden pb-2 transition-all duration-300 ease-in-out",
+            open ? "max-w-full opacity-100" : "max-w-0 opacity-0",
+          )}
+        >
+          <span className="text-subheading text-base font-semibold whitespace-nowrap">
+            My other projects:
+          </span>
+          <Link
+            href="https://vaibhav-somani.vercel.app/projects"
+            target="_blank"
+            className={cn(secondaryButtonClass, "min-w-max font-semibold")}
+          >
+            View Projects
+          </Link>
+        </div>
+
+        <hr className="border-accent-1 mb-4 border-1" />
+
+        {/* Avatar + Name */}
+        <div className="flex flex-col justify-start space-y-2">
+          <div className={cn("flex space-x-6 transition-all duration-300")}>
+            <div className="border-border bg-subheading relative h-15 w-15 shrink-0 overflow-hidden rounded-full border-2">
+              <img
+                src="/avatar.jpeg"
+                alt="Avatar"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div
+              className={cn(
+                "overflow-hidden transition-all duration-300 ease-in-out",
+                open ? "max-w-full opacity-100" : "opacity-0",
+              )}
+            >
+              <p className="text-heading text-xl font-bold whitespace-nowrap">
+                Vaibhav Somani
+              </p>
+              <p className="text-subheading text-base font-semibold whitespace-nowrap">
+                Software Developer
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
   );

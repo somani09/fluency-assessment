@@ -1,28 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sidebar from "@/components/sidebar";
-import { cn, shadowDepthPrimary } from "./utils";
+import { cn } from "./utils";
 import { ThemeProvider } from "next-themes";
+import { shadowDepthPrimary } from "./css-utils";
 
 export default function ClientRoot({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    const node = sidebarRef.current;
+    if (!node) return;
+
+    const handleMouseEnter = () => {
+      if (window.innerWidth >= 640) setSidebarOpen(true); // Only on sm+
+    };
+
+    const handleMouseLeave = () => {
+      if (window.innerWidth >= 640) setSidebarOpen(false); // Only on sm+
+    };
+
+    node.addEventListener("mouseenter", handleMouseEnter);
+    node.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      node.removeEventListener("mouseenter", handleMouseEnter);
+      node.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
   return (
     <ThemeProvider
       attribute="class" // Uses `class="light"` or `class="dark"`
       defaultTheme="light" // Force light mode by default
       enableSystem={false} // Disable system theme detection
     >
-      <div className="bg-glass/50 relative flex h-max">
+      <div className="relative flex h-max">
         <button
           onClick={() => setSidebarOpen(true)}
           className={cn(
-            "z-50 flex h-16 w-16 items-center justify-center rounded-full",
+            "z-50 flex h-16 w-16 items-center justify-center rounded-full sm:hidden",
             "bg-glass/20 border-primary/10 border-2 backdrop-blur-[6px]",
             shadowDepthPrimary,
             "translate-z-0 transition-opacity duration-300 ease-in-out will-change-[opacity]",
@@ -38,18 +60,20 @@ export default function ClientRoot({
         </button>
 
         <div
+          ref={sidebarRef}
           className={cn(
-            "fixed left-0 z-50 origin-[30px_calc(100%-30px)] transition-transform duration-300 ease-in-out sm:origin-[64px_64px]",
-            "bottom-2 sm:top-32 sm:bottom-auto",
+            "fixed top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out",
             sidebarOpen
-              ? "pointer-events-auto visible scale-100"
-              : "pointer-events-none scale-0",
+              ? "pointer-events-auto w-96 scale-100 sm:w-96"
+              : "pointer-events-none w-0 sm:pointer-events-auto sm:w-[120px] sm:scale-100",
+            "origin-[30px_calc(100%-30px)] sm:origin-[64px_64px]",
+            !sidebarOpen && "scale-0 sm:scale-100",
           )}
         >
-          <Sidebar onClose={() => setSidebarOpen(false)} />
+          <Sidebar onClose={() => setSidebarOpen(false)} open={sidebarOpen} />
         </div>
 
-        <main className="h-max w-full flex-1">{children}</main>
+        <main className="h-max w-full flex-1 sm:pl-24">{children}</main>
       </div>
     </ThemeProvider>
   );
