@@ -69,9 +69,6 @@ const NewUsers = () => {
           </h1>
           <hr className="border-accent mt-4 mb-4 w-full border-2" />
         </div>
-        <button className="bg-primary hover:bg-primary/80 h-8 cursor-pointer rounded-2xl px-4 py-0 text-sm text-white">
-          Assumptions
-        </button>
       </div>
 
       {/* Cards */}
