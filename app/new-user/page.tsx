@@ -4,16 +4,65 @@ import { useState } from "react";
 import { FiActivity, FiTrendingUp, FiZap } from "react-icons/fi";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
-import { cn } from "@/app/utils";
-import { glassPanelClass, secondaryButtonClass } from "@/app/css-utils";
-import AnalyticsCard from "@/components/analytics-cards";
+import { cn, getCumulativeData } from "@/app/utils";
+import {
+  getGlassButtonClasses,
+  glassPanelClass,
+  secondaryButtonClass,
+} from "@/app/css-utils";
+import AnalyticsCard from "@/components/apex-charts/analytics-cards";
+import LineChart from "@/components/apex-charts/line-chart";
+import BarChart from "@/components/apex-charts/bar-chart"; // 👈 Import BarChart
+import { newUserDataConfig } from "../chart-data";
+
+const CHART_TYPES = ["line", "bar"] as const;
+type ChartType = (typeof CHART_TYPES)[number];
+
+const AnalyticsSummaryCards = () => (
+  <div className="grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-20">
+    <AnalyticsCard
+      icon={<FiTrendingUp className="h-full w-full" />}
+      value="+94.7%"
+      title="Weekly Growth"
+      subtitle="37 users this week vs. 19 last week"
+    />
+    <AnalyticsCard
+      icon={<FiZap className="h-full w-full" />}
+      value="13 users"
+      title="Top Performing Day"
+      subtitle="Day 9 had the highest signups"
+    />
+    <AnalyticsCard
+      icon={<FiActivity className="h-full w-full" />}
+      value="Moderate"
+      title="Acquisition Consistency"
+      subtitle="7 of 14 days below 3 users"
+    />
+  </div>
+);
 
 const NewUsers = () => {
-  const [footerOpen, setFooterOpen] = useState(true);
+  const [footerOpen, setFooterOpen] = useState(false);
+  const [chartType, setChartType] = useState<ChartType>("line");
+  const [showCumulative, setShowCumulative] = useState(false);
+
+  const rawCounts = newUserDataConfig.map((d) => d.count);
+  const counts = showCumulative ? getCumulativeData(rawCounts) : rawCounts;
+  const dates = newUserDataConfig.map((d) => d.date);
+
+  const chartProps = {
+    data: counts,
+    xLabels: dates,
+    fullData: newUserDataConfig,
+    title: "New Users Over Time",
+    xAxisLabel: "Date",
+    yAxisLabel: "New Users",
+    color: "#a4bff6",
+  };
 
   return (
-    <div className="relative flex min-h-screen flex-col space-y-10 px-8 py-12">
-      <div className="mb-12 flex w-full items-end justify-between">
+    <div className="relative flex min-h-screen flex-col space-y-8 px-8 py-12">
+      <div className="flex w-full items-end justify-between">
         <div>
           <h1 className="text-heading text-4xl font-bold lg:text-6xl">
             New User Growth
@@ -25,45 +74,71 @@ const NewUsers = () => {
         </button>
       </div>
 
-      <div className="grid w-full grid-cols-1 gap-20 sm:grid-cols-2 lg:grid-cols-3">
-        <AnalyticsCard
-          icon={<FiTrendingUp className="h-full w-full" />}
-          value="+94.7%"
-          title="Weekly Growth"
-          subtitle="37 users this week vs. 19 last week"
-        />
-        <AnalyticsCard
-          icon={<FiZap className="h-full w-full" />}
-          value="13 users"
-          title="Top Performing Day"
-          subtitle="Day 9 had the highest signups"
-        />
-        <AnalyticsCard
-          icon={<FiActivity className="h-full w-full" />}
-          value="Moderate"
-          title="Acquisition Consistency"
-          subtitle="7 of 14 days below 3 users"
-        />
+      {/* Cards */}
+      <div className="hidden lg:block">
+        <AnalyticsSummaryCards />
       </div>
 
-      <div className="mt-6 mb-0 flex flex-col space-y-1">
+      {/* Chart Controls */}
+      <div className="mb-0 flex flex-col space-y-1">
         <h2 className="text-heading text-2xl font-semibold">Chart Type</h2>
         <p className="text-subheading mt-1 text-sm">
           Choose how to visualize new user growth
         </p>
-        <div className="flex flex-wrap items-center justify-start gap-4">
-          <button className={secondaryButtonClass}>Line Chart</button>
-          <button className={secondaryButtonClass}>Bar Chart</button>
-          <button className={secondaryButtonClass}>Area Chart</button>
+        <div className="flex flex-wrap items-end justify-between gap-4 sm:flex-nowrap sm:items-end">
+          <div className="flex flex-wrap items-center gap-4">
+            {CHART_TYPES.map((type) => (
+              <button
+                key={type}
+                onClick={() => setChartType(type)}
+                className={cn(
+                  secondaryButtonClass,
+                  chartType === type && "bg-primary text-white",
+                )}
+              >
+                {type === "line"
+                  ? "Line Chart"
+                  : type === "bar"
+                    ? "Bar Chart"
+                    : "Line Chart"}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setShowCumulative((prev) => !prev)}
+            className={cn(
+              getGlassButtonClasses(showCumulative),
+              "w-max px-2 py-1",
+            )}
+          >
+            Show Cumulative{" "}
+          </button>
         </div>
       </div>
 
-      <div className="border-border mt-8 h-[400px] w-full rounded-xl border-2 border-dashed">
-        <p className="text-subheading pt-32 text-center">
-          [Chart will render here]
-        </p>
+      {/* Chart Display */}
+      <div
+        className={cn(
+          "mt-4 h-[400px] w-full rounded-xl pb-4 pl-4",
+          glassPanelClass,
+          "bg-glass/5 border-border/50 border-1",
+        )}
+      >
+        {chartType === "line" && (
+          <LineChart {...chartProps} isCumulative={showCumulative} />
+        )}
+        {chartType === "bar" && (
+          <BarChart {...chartProps} isCumulative={showCumulative} />
+        )}
+        {/* Placeholder for now */}
       </div>
 
+      <div className="block lg:hidden">
+        <AnalyticsSummaryCards />
+      </div>
+
+      {/* Footer */}
       <div
         className={cn(
           "fixed bottom-0 z-40 transition-transform duration-300 ease-in-out",

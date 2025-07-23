@@ -67,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
         aria-label="Close sidebar"
       />
 
-      <div className="flex flex-col items-start space-y-4">
+      <div className="flex flex-col items-start space-y-2 pt-2">
         <div className="flex items-center justify-center">
           <TbCircleLetterF
             className={cn(

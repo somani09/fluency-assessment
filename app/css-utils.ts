@@ -1,12 +1,13 @@
 import { cn } from "@/app/utils";
 
+//,_0_20px_32px_rgba(0,53,89,0.2),_0_32px_48px_rgba(0,53,89,0.15
 export const shadowDepthPrimary =
-  "shadow-[0_2px_6px_rgba(0,53,89,0.15),_0_6px_12px_rgba(0,53,89,0.2),_0_12px_24px_rgba(0,53,89,0.25),_0_20px_32px_rgba(0,53,89,0.2),_0_32px_48px_rgba(0,53,89,0.15)]";
+  "shadow-[0_2px_6px_rgba(0,53,89,0.15),_0_6px_12px_rgba(0,53,89,0.2),_0_12px_24px_rgba(0,53,89,0.25))]";
 
 // For full glass containers like sidebar or cards
 export const glassPanelClass = cn(
   "bg-glass/10",
-  "border-primary/10 border-2",
+  "border-primary/50 border-2",
   "backdrop-blur-[6px]",
   shadowDepthPrimary,
 );
@@ -24,7 +25,7 @@ export function getGlassButtonClasses(isActive: boolean) {
   return cn(
     glassButtonBase,
     isActive
-      ? "bg-glass/30 border-border text-heading font-semibold"
+      ? "bg-glass/60 border-border text-heading font-semibold"
       : "bg-glass/10 border-border/50 text-text hover:text-heading hover:border-border active:bg-glass/30 active:text-heading active:font-semibold",
   );
 }

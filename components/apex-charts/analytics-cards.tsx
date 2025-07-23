@@ -20,14 +20,13 @@ const AnalyticsCard = ({
   return (
     <div
       className={cn(
-        "group relative flex min-w-64 flex-col justify-between gap-4 rounded-2xl px-6 py-5 transition-all duration-200 hover:scale-[1.015]",
-        "border-border/30 hover:border-border/70 border",
-        "bg-glass/10 backdrop-blur-md",
+        "group relative flex min-w-64 flex-col justify-between gap-2 rounded-2xl px-5 py-4 transition-all duration-200 hover:scale-[1.015]",
         glassPanelClass,
+        "border-border/50 hover:border-border/70",
       )}
     >
       {/* Icon & Timeframe Row */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div className="text-accent group-hover:text-heading h-10 w-10 shrink-0 transition">
           {icon}
         </div>
