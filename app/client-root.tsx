@@ -19,11 +19,11 @@ export default function ClientRoot({
     if (!node) return;
 
     const handleMouseEnter = () => {
-      if (window.innerWidth >= 640) setSidebarOpen(true); // Only on sm+
+      if (window.innerWidth >= 640) setSidebarOpen(true); // Only on md+
     };
 
     const handleMouseLeave = () => {
-      if (window.innerWidth >= 640) setSidebarOpen(false); // Only on sm+
+      if (window.innerWidth >= 640) setSidebarOpen(false); // Only on md+
     };
 
     node.addEventListener("mouseenter", handleMouseEnter);
@@ -44,11 +44,11 @@ export default function ClientRoot({
         <button
           onClick={() => setSidebarOpen(true)}
           className={cn(
-            "z-50 flex h-16 w-16 items-center justify-center rounded-full sm:hidden",
+            "z-50 flex h-16 w-16 items-center justify-center rounded-full md:hidden",
             "bg-glass/20 border-primary/10 border-2 backdrop-blur-[6px]",
             shadowDepthPrimary,
             "translate-z-0 transition-opacity duration-300 ease-in-out will-change-[opacity]",
-            "fixed bottom-2 left-2 sm:top-[161px] sm:bottom-auto sm:left-[34px]",
+            "fixed bottom-2 left-2 md:top-[161px] md:bottom-auto md:left-[34px]",
             sidebarOpen ? "pointer-events-none opacity-0" : "opacity-100",
           )}
         >
@@ -64,16 +64,16 @@ export default function ClientRoot({
           className={cn(
             "fixed top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out",
             sidebarOpen
-              ? "pointer-events-auto w-96 scale-100 sm:w-96"
-              : "pointer-events-none w-0 sm:pointer-events-auto sm:w-[120px] sm:scale-100",
-            "origin-[30px_calc(100%-30px)] sm:origin-[64px_64px]",
-            !sidebarOpen && "scale-0 sm:scale-100",
+              ? "pointer-events-auto w-96 scale-100 md:w-96"
+              : "pointer-events-none w-0 md:pointer-events-auto md:w-[120px] md:scale-100",
+            "origin-[30px_calc(100%-30px)] md:origin-[64px_64px]",
+            !sidebarOpen && "scale-0 md:scale-100",
           )}
         >
           <Sidebar onClose={() => setSidebarOpen(false)} open={sidebarOpen} />
         </div>
 
-        <main className="h-max w-full flex-1 sm:pl-[120px]">{children}</main>
+        <main className="h-max w-full flex-1 md:pl-[120px]">{children}</main>
       </div>
     </ThemeProvider>
   );

@@ -10,38 +10,16 @@ import {
   glassPanelClass,
   secondaryButtonClass,
 } from "@/app/css-utils";
-import AnalyticsCard from "@/components/analytics-cards";
 import LineChart from "@/components/apex-charts/line-chart";
 import BarChart from "@/components/apex-charts/bar-chart"; // 👈 Import BarChart
 import { newUserDataConfig } from "../chart-data";
+import SummaryCard from "@/components/summary-card";
+import { summaryCardData } from "../community-health-data";
 
 const CHART_TYPES = ["line", "bar"] as const;
 type ChartType = (typeof CHART_TYPES)[number];
 
-const AnalyticsSummaryCards = () => (
-  <div className="grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-20">
-    <AnalyticsCard
-      icon={<FiTrendingUp className="h-full w-full" />}
-      value="+94.7%"
-      title="Weekly Growth"
-      subtitle="37 users this week vs. 19 last week"
-    />
-    <AnalyticsCard
-      icon={<FiZap className="h-full w-full" />}
-      value="13 users"
-      title="Top Performing Day"
-      subtitle="Day 9 had the highest signups"
-    />
-    <AnalyticsCard
-      icon={<FiActivity className="h-full w-full" />}
-      value="Moderate"
-      title="Acquisition Consistency"
-      subtitle="7 of 14 days below 3 users"
-    />
-  </div>
-);
-
-const NewUsers = () => {
+const CommunityHealth = () => {
   const [footerOpen, setFooterOpen] = useState(false);
   const [chartType, setChartType] = useState<ChartType>("line");
   const [showCumulative, setShowCumulative] = useState(false);
@@ -72,8 +50,8 @@ const NewUsers = () => {
       </div>
 
       {/* Cards */}
-      <div className="hidden lg:block">
-        <AnalyticsSummaryCards />
+      <div className="hidden w-[600px] lg:block">
+        <SummaryCard data={summaryCardData} />
       </div>
 
       {/* Chart Controls */}
@@ -132,7 +110,7 @@ const NewUsers = () => {
       </div>
 
       <div className="block lg:hidden">
-        <AnalyticsSummaryCards />
+        <SummaryCard data={summaryCardData} />
       </div>
 
       {/* Footer */}
@@ -215,4 +193,4 @@ const NewUsers = () => {
   );
 };
 
-export default NewUsers;
+export default CommunityHealth;
