@@ -1,4 +1,4 @@
-import { UserEntry } from "@/app/chart-data";
+import { CommunityHealthChartData } from "@/app/types-and-interfaces";
 
 export const calculateMaxY = (data: number[]): number => {
   const max = Math.max(...data);
@@ -11,8 +11,7 @@ export const calculateMinMaxY = (
 ): { minY: number; maxY: number } => {
   const min = Math.min(...data, 0);
   const max = Math.max(...data, 0);
-  const padding = Math.ceil(Math.max(Math.abs(min), Math.abs(max)) * 0.1); // 10% padding
-
+  const padding = Math.ceil(Math.max(Math.abs(min), Math.abs(max)) * 0.1);
   return {
     minY: min < 0 ? min - padding : 0,
     maxY: max > 0 ? max + padding : 0,
@@ -20,9 +19,9 @@ export const calculateMinMaxY = (
 };
 
 export const getCustomTooltipHTML = (
-  entry: UserEntry,
+  entry: CommunityHealthChartData,
   index: number,
-  fullData: UserEntry[],
+  fullData: CommunityHealthChartData[],
   isCumulative: boolean,
 ): string => {
   const total = fullData
@@ -30,28 +29,38 @@ export const getCustomTooltipHTML = (
     .reduce((sum, e) => sum + e.count, 0);
   const today = entry.count;
 
+  const getOrDash = (val: number | string | null) =>
+    val !== null && val !== undefined ? val : "–";
+
   const countDisplay = isCumulative
     ? `
-      <div>
-        <div class="text-heading text-xl font-bold tracking-tight">${total} users</div>
-        <div class="text-subheading text-sm">Today: ${today}</div>
-      </div>
-    `
-    : `<div class="text-heading text-2xl font-bold tracking-tight">${today} users</div>`;
+        <div class="flex flex-col">
+          <div class="text-heading text-xl font-bold leading-tight">${total} users</div>
+          <div class="text-[0.75rem] font-semibold text-secondary">+${today} today</div>
+        </div>
+      `
+    : `<div class="text-heading text-xl font-bold leading-tight">${today} users</div>`;
 
   return `
-  <div class="w-max h-max bg-white/60">
-    <div class="max-w-[300px] rounded-lg border border-border/50 p-4 shadow-md  bg-glass/5 backdrop-blur-3xl">
-      <div class="flex justify-between text-xs font-semibold text-subheading mb-1">
+  <div class="relative w-max h-max">
+    <div class="absolute inset-0 -z-10 rounded-xl bg-white/70 blur-[10px]"></div>
+    <div class="rounded-xl border border-[#cfd8f0] bg-glass/10 backdrop-blur-[32px] p-4 shadow-md">
+      <div class="flex items-start justify-between mb-2">
         ${countDisplay}
-        <span>${entry.date}</span>
+        <div class="flex items-center gap-1">
+          <span class="text-heading font-bold text-lg">${entry.campaign}</span>
+        </div>
       </div>
-      <div class="border-t border-border/20 my-2"></div>
-      <div class="flex flex-col gap-1 text-base text-text">
-        <div class="text-wrap"><span class="text-subheading font-bold uppercase text-sm underline">Source:</span> ${entry.source}</div>
-        <div class="text-wrap"><span class="text-subheading font-bold uppercase text-sm underline">Device:</span> ${entry.device}</div>
-        <div class="text-wrap"><span class="text-subheading font-bold uppercase text-sm underline">Location:</span> ${entry.location}</div>
-      </div>
+
+      <div class="border-t border-accent mb-2"></div>
+
+      <ul class="text-base text-heading font-normal space-y-[2px] leading-[1.4]">
+        <li><span class="text-secondary">• Avg Time-to-Churn (days):&nbsp;</span> ${getOrDash(entry.avgTimeToChurn)}</li>
+        <li><span class="text-secondary">• Unsubscribe Rate (%):&nbsp;</span> ${getOrDash(entry.unsubscribeRate)}</li>
+        <li><span class="text-secondary">• Reply Rate (%):&nbsp;</span> ${getOrDash(entry.replyRate)}</li>
+        <li><span class="text-secondary">• Retention Curve Slope:&nbsp;</span> ${getOrDash(entry.retentionCurve)}</li>
+        <li><span class="text-secondary">• Stickiness Index:&nbsp;</span> ${getOrDash(entry.stickinessIndex)}</li>
+      </ul>
     </div>
   </div>
   `;
@@ -62,61 +71,69 @@ export const getCommonAxisStyle = () => ({
     tooltip: { enabled: false },
     labels: {
       style: {
-        color: "#004052",
-        fontWeight: 500,
-        fontSize: "13px",
-      },
-      offsetY: 4,
-    },
-    axisBorder: { show: false },
-    axisTicks: {
-      show: true,
-      color: "#c1cdf9",
-      offsetY: -2,
-    },
-  },
-  yaxis: {
-    tickAmount: 5,
-    min: 0,
-    labels: {
-      style: {
-        colors: "#004052",
-        fontWeight: 500,
-        fontSize: "13px",
+        fontSize: "12px",
+        fontWeight: 700,
+        colors: "#084B83",
       },
     },
     axisBorder: {
       show: true,
-      color: "#c1cdf9",
-      width: 2,
+      color: "#BCB6F6",
     },
     axisTicks: {
       show: true,
-      color: "#c1cdf9",
-      width: 3,
-      offsetX: 1,
+      color: "#BCB6F6",
+    },
+  },
+  yaxis: {
+    labels: {
+      style: {
+        fontSize: "12px",
+        fontWeight: 700,
+        colors: "#084B83",
+      },
+    },
+    axisBorder: {
+      show: true,
+      color: "#BCB6F6",
+    },
+    axisTicks: {
+      show: true,
+      color: "#BCB6F6",
     },
   },
   grid: {
-    strokeDashArray: 5,
-    borderColor: "#c1cdf9",
+    borderColor: "#C1CDF9",
+    strokeDashArray: 4,
   },
 });
 
 export const getGradientFill = () => ({
   type: "gradient",
   gradient: {
-    shade: "light",
+    shadeIntensity: 1,
+    opacityFrom: 0.7,
+    opacityTo: 0.1,
+    stops: [0, 100],
     type: "vertical",
-    gradientToColors: ["#bcb6f6", "#9dcced"],
-    opacityFrom: 0.9,
-    opacityTo: 0.3,
-    stops: [0, 75, 100],
+
+    colorStops: [
+      {
+        offset: 0,
+        color: "#AB71EB",
+        opacity: 0.7,
+      },
+      {
+        offset: 100,
+        color: "#B69FF2",
+        opacity: 0.1,
+      },
+    ],
   },
 });
 
 export const getStroke = (color: string) => ({
+  width: 2,
   curve: "smooth" as const,
-  width: 3,
   colors: [color],
 });

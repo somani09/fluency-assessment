@@ -3,7 +3,7 @@
 import type { ApexOptions } from "apexcharts";
 import { useMemo } from "react";
 import ApexChart from "./apex-chart";
-import { UserEntry } from "@/app/chart-data";
+import { CommunityHealthChartData } from "@/app/types-and-interfaces";
 import {
   calculateMinMaxY,
   getCommonAxisStyle,
@@ -15,9 +15,8 @@ import {
 interface LineChartProps {
   data: number[];
   xLabels: string[];
-  fullData: UserEntry[];
+  fullData: CommunityHealthChartData[];
   title?: string;
-  color?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
   isCumulative?: boolean;
@@ -27,10 +26,9 @@ const LineChart = ({
   data,
   xLabels,
   fullData,
-  title = "Line Chart",
-  color = "#a4bff6",
-  xAxisLabel = "",
-  yAxisLabel = "",
+  title = "New Users",
+  xAxisLabel = "New Users",
+  yAxisLabel = "New Users",
   isCumulative = false,
 }: LineChartProps) => {
   const series = useMemo(() => [{ name: title, data }], [data, title]);
@@ -44,19 +42,18 @@ const LineChart = ({
         fontFamily: "inherit",
         zoom: { enabled: false },
       },
-      stroke: getStroke(color),
+      stroke: getStroke("#8671E1"),
       fill: getGradientFill(),
-      colors: [color],
+      colors: ["#8671E1"],
       xaxis: {
         ...getCommonAxisStyle().xaxis,
         categories: xLabels,
         title: {
           text: xAxisLabel,
-          offsetY: 0,
           style: {
-            color: "#004052",
+            color: "#061A40",
+            fontSize: "16px",
             fontWeight: 500,
-            fontSize: "13px",
           },
         },
       },
@@ -67,9 +64,9 @@ const LineChart = ({
         title: {
           text: yAxisLabel,
           style: {
-            color: "#004052",
+            color: "#061A40",
+            fontSize: "16px",
             fontWeight: 500,
-            fontSize: "13px",
           },
         },
       },
@@ -107,16 +104,7 @@ const LineChart = ({
       dataLabels: { enabled: false },
       grid: getCommonAxisStyle().grid,
     }),
-    [
-      color,
-      xLabels,
-      xAxisLabel,
-      minY,
-      maxY,
-      yAxisLabel,
-      fullData,
-      isCumulative,
-    ],
+    [xLabels, xAxisLabel, minY, maxY, yAxisLabel, fullData, isCumulative],
   );
 
   return (

@@ -1,18 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { FiActivity, FiTrendingUp, FiZap } from "react-icons/fi";
 
 import { cn, getCumulativeData } from "@/app/utils";
-import { glassPanelClass } from "@/app/css-utils";
 import LineChart from "@/components/apex-charts/line-chart";
-import BarChart from "@/components/apex-charts/bar-chart";
-import { newUserDataConfig } from "../chart-data";
+import BarChart from "@/components/apex-charts/bar-chart"; // commented out
 import SummaryCard from "@/components/summary-card";
 import {
   campaignActivityData,
   footerSuggestionsAndAnalyticsData,
   summaryCardData,
+  communityChartData,
 } from "../community-health-data";
 import CampaignActivity from "@/components/campaign-activity";
 import FooterPanel from "@/components/footer/footer";
@@ -20,26 +18,25 @@ import GlassLayout from "@/components/layouts/glass-layout";
 import { BsGearFill } from "react-icons/bs";
 import ChartGearBox from "@/components/apex-charts/chart-gear-box";
 
-const CHART_TYPES = ["line", "bar"] as const;
-type ChartType = (typeof CHART_TYPES)[number];
+type ChartType = "line" | "bar";
 
 const CommunityHealth = () => {
   const [chartType, setChartType] = useState<ChartType>("line");
   const [showCumulative, setShowCumulative] = useState(false);
   const [gearOpen, setGearOpen] = useState(false);
 
-  const rawCounts = newUserDataConfig.map((d) => d.count);
+  const rawCounts = communityChartData.map((d) => d.count);
   const counts = showCumulative ? getCumulativeData(rawCounts) : rawCounts;
-  const dates = newUserDataConfig.map((d) => d.date);
+  const dates = communityChartData.map((d) => d.date);
 
   const chartProps = {
     data: counts,
     xLabels: dates,
-    fullData: newUserDataConfig,
+    fullData: communityChartData,
     title: "New Users Over Time",
     xAxisLabel: "Date",
     yAxisLabel: "New Users",
-    color: "#a4bff6",
+    color: "#8671E1", // twilight-blue-violet-400
   };
 
   return (
@@ -47,7 +44,7 @@ const CommunityHealth = () => {
       <div className="flex h-max w-full gap-5">
         <div className="flex flex-col items-start justify-between lg:w-[60%]">
           <div className="w-max">
-            <h1 className="text-heading text-4xl leading-[150%] font-bold lg:text-6xl">
+            <h1 className="text-heading text-4xl font-bold lg:text-6xl">
               New User Growth
             </h1>
             <hr className="border-accent mt-4 mb-2 w-full border-2" />
@@ -97,6 +94,7 @@ const CommunityHealth = () => {
           <BarChart {...chartProps} isCumulative={showCumulative} />
         )}
       </GlassLayout>
+
       {/* Summary card for mobile */}
       <div className="block lg:hidden">
         <SummaryCard data={summaryCardData} />

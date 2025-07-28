@@ -96,11 +96,11 @@ const UserChange = () => {
           "bg-glass/5 border-border/50 border-1",
         )}
       >
-        {chartType === "line" ? (
+        {/* {chartType === "line" ? (
           <LineChart {...chartProps} isCumulative={showCumulative} />
         ) : (
           <BarChart {...chartProps} isCumulative={showCumulative} />
-        )}
+        )} */}
       </div>
 
       <div className="block lg:hidden">

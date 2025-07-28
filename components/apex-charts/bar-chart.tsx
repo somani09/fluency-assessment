@@ -3,18 +3,18 @@
 import type { ApexOptions } from "apexcharts";
 import { useMemo } from "react";
 import ApexChart from "./apex-chart";
-import { UserEntry } from "@/app/chart-data";
 import {
   calculateMinMaxY,
   getCommonAxisStyle,
   getGradientFill,
   getCustomTooltipHTML,
 } from "./chart-utils";
+import { CommunityHealthChartData } from "@/app/types-and-interfaces";
 
 interface BarChartProps {
   data: number[];
   xLabels: string[];
-  fullData: UserEntry[];
+  fullData: CommunityHealthChartData[];
   title?: string;
   color?: string;
   xAxisLabel?: string;
@@ -26,10 +26,10 @@ const BarChart = ({
   data,
   xLabels,
   fullData,
-  title = "Bar Chart",
+  title = "New Users",
   color = "#a4bff6",
-  xAxisLabel = "",
-  yAxisLabel = "",
+  xAxisLabel = "New Users",
+  yAxisLabel = "New Users",
   isCumulative = false,
 }: BarChartProps) => {
   const sanitizedData = useMemo(
@@ -78,11 +78,10 @@ const BarChart = ({
         categories: xLabels,
         title: {
           text: xAxisLabel,
-          offsetY: 0,
           style: {
-            color: "#004052",
+            color: "#061A40",
+            fontSize: "16px",
             fontWeight: 500,
-            fontSize: "13px",
           },
         },
       },
@@ -93,9 +92,9 @@ const BarChart = ({
         title: {
           text: yAxisLabel,
           style: {
-            color: "#004052",
+            color: "#061A40",
+            fontSize: "16px",
             fontWeight: 500,
-            fontSize: "13px",
           },
         },
       },
@@ -146,7 +145,13 @@ const BarChart = ({
   );
 
   return (
-    <ApexChart type="bar" series={series} options={options} height="100%" />
+    <ApexChart
+      type="bar"
+      series={series}
+      options={options}
+      height="100%"
+      width="100%"
+    />
   );
 };
 
