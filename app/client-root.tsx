@@ -40,7 +40,7 @@ export default function ClientRoot({
       defaultTheme="light" // Force light mode by default
       enableSystem={false} // Disable system theme detection
     >
-      <div className="relative flex h-max">
+      <div className="bg-surface-alt/20 relative flex h-max">
         <button
           onClick={() => setSidebarOpen(true)}
           className={cn(

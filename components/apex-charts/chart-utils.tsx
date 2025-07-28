@@ -1,5 +1,4 @@
 import { UserEntry } from "@/app/chart-data";
-import { glassPanelClass } from "@/app/css-utils";
 
 export const calculateMaxY = (data: number[]): number => {
   const max = Math.max(...data);

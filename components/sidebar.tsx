@@ -57,6 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
       className={cn(
         "relative flex h-screen w-full flex-col justify-between overflow-hidden p-6",
         glassPanelClass,
+        "border-0 border-r-2",
         className,
       )}
     >

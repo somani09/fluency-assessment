@@ -10,7 +10,7 @@ import {
   glassPanelClass,
   secondaryButtonClass,
 } from "@/app/css-utils";
-import AnalyticsCard from "@/components/apex-charts/analytics-cards";
+import AnalyticsCard from "@/components/analytics-cards";
 import LineChart from "@/components/apex-charts/line-chart";
 import BarChart from "@/components/apex-charts/bar-chart";
 import { userChangeDataConfig } from "../chart-data";

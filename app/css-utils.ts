@@ -7,7 +7,7 @@ export const shadowDepthPrimary =
 // For full glass containers like sidebar or cards
 export const glassPanelClass = cn(
   "bg-glass/10",
-  "border-primary/50 border-2",
+  "border-border/70 border-2",
   "backdrop-blur-[6px]",
   shadowDepthPrimary,
 );
