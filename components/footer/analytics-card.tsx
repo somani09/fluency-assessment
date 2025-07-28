@@ -1,4 +1,7 @@
+"use client";
+
 import type { CampaignInsightCard } from "@/app/types-and-interfaces";
+import GlassLayout from "@/components/layouts/glass-layout";
 
 interface AnalyticsCardProps {
   data: CampaignInsightCard;
@@ -6,7 +9,12 @@ interface AnalyticsCardProps {
 
 const AnalyticsCard = ({ data }: AnalyticsCardProps) => {
   return (
-    <div className="bg-glass/40 border-border/30 flex w-max max-w-[400px] min-w-[280px] shrink-0 flex-col justify-between rounded-xl border p-4 text-sm shadow-sm">
+    <GlassLayout
+      noImage
+      backgroundClassName="bg-white/50 blur-none "
+      contentClassName="p-4 h-full"
+      className="w-max max-w-[400px] min-w-[280px] shrink-0 shadow-2xl backdrop-blur-none"
+    >
       <div className="text-heading mb-1 flex items-center gap-2 text-base font-medium sm:text-2xl">
         {data.icon && (
           <data.icon className="text-twilight-blue-violet-400 h-6 w-6 shrink-0" />
@@ -21,7 +29,7 @@ const AnalyticsCard = ({ data }: AnalyticsCardProps) => {
           <li key={idx}>{insight}</li>
         ))}
       </ul>
-    </div>
+    </GlassLayout>
   );
 };
 

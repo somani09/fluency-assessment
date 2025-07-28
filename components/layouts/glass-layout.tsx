@@ -11,6 +11,7 @@ interface GlassLayoutProps {
   disableBackgroundStyles?: boolean;
   disableContentStyles?: boolean;
   className?: string;
+  noImage?: boolean;
 }
 
 export default function GlassLayout({
@@ -20,6 +21,7 @@ export default function GlassLayout({
   disableBackgroundStyles = false,
   disableContentStyles = false,
   className,
+  noImage = false,
 }: GlassLayoutProps) {
   return (
     <div
@@ -37,14 +39,16 @@ export default function GlassLayout({
         )}
       >
         <div className="relative h-full w-full">
-          <Image
-            src={bgLine}
-            alt="Background Graphic"
-            fill
-            className="pointer-events-none object-fill select-none"
-            priority
-            draggable={false}
-          />
+          {!noImage && (
+            <Image
+              src={bgLine}
+              alt="Background Graphic"
+              fill
+              className="pointer-events-none object-fill select-none"
+              priority
+              draggable={false}
+            />
+          )}
         </div>
       </div>
 

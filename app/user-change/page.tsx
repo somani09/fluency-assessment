@@ -10,7 +10,7 @@ import {
   glassPanelClass,
   secondaryButtonClass,
 } from "@/app/css-utils";
-import AnalyticsCard from "@/components/analytics-cards";
+// import AnalyticsCard from "@/components/analytics-cards";
 import LineChart from "@/components/apex-charts/line-chart";
 import BarChart from "@/components/apex-charts/bar-chart";
 import { userChangeDataConfig } from "../chart-data";
@@ -18,28 +18,7 @@ import { userChangeDataConfig } from "../chart-data";
 const CHART_TYPES = ["line", "bar"] as const;
 type ChartType = (typeof CHART_TYPES)[number];
 
-const AnalyticsSummaryCards = () => (
-  <div className="grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-20">
-    <AnalyticsCard
-      icon={<FiTrendingUp className="h-full w-full" />}
-      value="+7"
-      title="Net Growth (7 days)"
-      subtitle="Last 7 days combined gain/loss"
-    />
-    <AnalyticsCard
-      icon={<FiArrowDown className="h-full w-full" />}
-      value="8 of 16"
-      title="Negative/Flat Days"
-      subtitle="50% of days saw no or negative growth"
-    />
-    <AnalyticsCard
-      icon={<FiRepeat className="h-full w-full" />}
-      value="3 days"
-      title="Longest Gain Streak"
-      subtitle="Best growth stretch: Day 10–12"
-    />
-  </div>
-);
+const AnalyticsSummaryCards = () => <></>;
 
 const UserChange = () => {
   const [footerOpen, setFooterOpen] = useState(false);
