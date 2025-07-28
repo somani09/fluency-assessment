@@ -26,7 +26,6 @@ const CHART_TYPES = ["line", "bar"] as const;
 type ChartType = (typeof CHART_TYPES)[number];
 
 const CommunityHealth = () => {
-  const [footerOpen, setFooterOpen] = useState(false);
   const [chartType, setChartType] = useState<ChartType>("line");
   const [showCumulative, setShowCumulative] = useState(false);
 
@@ -45,18 +44,17 @@ const CommunityHealth = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col space-y-8 px-8 py-12">
-      <div className="flex w-full flex-row"></div>
+    <div className="relative flex min-h-screen flex-col space-y-8 p-6">
       <div className="flex h-max w-full gap-5">
         <div className="flex flex-col items-start justify-between lg:w-[60%]">
           <div className="w-max">
-            <h1 className="text-heading text-4xl font-bold lg:text-6xl">
+            <h1 className="text-heading text-4xl leading-[150%] font-bold lg:text-6xl">
               New User Growth
             </h1>
             <hr className="border-accent mt-4 mb-2 w-full border-2" />
           </div>
           <div className="mb-5 flex text-sm sm:text-base">
-            <p className="font-bold">Date Range: </p>
+            <p className="font-bold">Date Range: &nb </p>
             <p className="font-normal">2025-07-01 - 2025-07-14</p>
           </div>
           <SummaryCard data={summaryCardData} />

@@ -13,7 +13,7 @@ const SuggestionsCard = ({ data }: SuggestionsCardProps) => {
       backgroundClassName="bg-white/50  blur-none "
       className="w-max max-w-[400px] min-w-[280px] shrink-0 text-sm backdrop-blur-none"
     >
-      <div className="flex h-auto flex-col justify-between p-4">
+      <div className="flex h-full flex-col justify-between p-4">
         <div>
           <div className="text-heading mb-1 flex items-start gap-2 text-base font-medium sm:text-2xl">
             {data.icon && (

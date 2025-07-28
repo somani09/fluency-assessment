@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/app/utils";
 import { FiChevronsLeft, FiUsers } from "react-icons/fi";
 import { MdGroupAdd } from "react-icons/md";
-import { TbCircleLetterF } from "react-icons/tb";
+import { TbCircleLetterF, TbSquareRoundedLetterF } from "react-icons/tb";
 import {
   glassPanelClass,
   getGlassButtonClasses,
@@ -68,17 +68,17 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
         aria-label="Close sidebar"
       />
 
-      <div className="flex flex-col items-start space-y-2 pt-2">
+      <div className="flex flex-col items-start space-y-2">
         <div className="flex items-center justify-center">
-          <TbCircleLetterF
+          <TbSquareRoundedLetterF
             className={cn(
               "text-heading ml-2 shrink-0 transition-all duration-300 ease-in-out",
-              "h-16 w-16",
+              "h-[90px] w-[90px] stroke-[1]",
             )}
           />
           <span
             className={cn(
-              "text-heading overflow-hidden text-7xl font-bold whitespace-nowrap transition-all duration-300 ease-in-out",
+              "text-heading overflow-hidden text-4xl leading-[150%] font-bold whitespace-nowrap transition-all duration-300 ease-in-out lg:text-6xl",
               open ? "max-w-max opacity-100" : "opacity-0",
             )}
           >

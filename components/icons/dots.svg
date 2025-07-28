@@ -1,0 +1,10 @@
+<svg style="display: none">
+  <filter id="grainDistortion">
+    <feTurbulence type="turbulence" baseFrequency="0.8" numOctaves="2" result="noise" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" />
+  </filter>
+</svg>
+
+<h1 style="filter: url(#grainDistortion);">
+  Fluency
+</h1>
