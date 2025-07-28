@@ -40,13 +40,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
 
   const navItems = [
     {
-      href: "/new-user",
-      label: "New User",
+      href: "/community-health",
+      label: "Community Health",
       icon: MdGroupAdd,
     },
     {
-      href: "/user-change",
-      label: "User Gain/Loss",
+      href: "/retention-insights",
+      label: "Retention Insights",
       icon: FiUsers,
     },
   ];

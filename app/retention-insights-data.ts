@@ -16,7 +16,7 @@ import { BiMessageSquareX } from "react-icons/bi";
 export const summaryCardData: SummaryCard = {
   title: "Subscriber Stability Score",
   rating: 3,
-  heroStat: "-5",
+  heroStat: "+14",
   heroLabel: "Net Users Lost",
   secondaryStat: "12%",
   secondaryLabel: "Churn Rate",
@@ -59,7 +59,7 @@ export const campaignActivityData: CampaignActivityItem[] = [
    Each point includes churn metrics, reply rate, and retention pattern.
    Below is the data to use: [2, -3, 5, 1, -1, 0, -2, 4, 1, -2, 5, 7, -3, 0, 1, -1]
 */
-export const communityChartData: CommunityHealthChartData[] = [
+export const retentionInsightsChartData: CommunityHealthChartData[] = [
   {
     date: "Jul 15",
     count: 2,
