@@ -36,15 +36,15 @@ const RetentionInsights = () => {
     title: "Net User Change Over Time",
     xAxisLabel: "Date",
     yAxisLabel: "Net Users",
-    color: "#a4bff6", // pastel blue (adjustable)
+    color: "#8671E1", // twilight-blue-violet-400
   };
 
   return (
     <div className="relative flex min-h-screen flex-col space-y-8 p-6 pb-12">
       <div className="flex h-max w-full gap-5">
-        <div className="flex flex-col items-start justify-between lg:w-[60%]">
+        <div className="relative flex w-full flex-col items-start justify-start lg:w-[60%]">
           <div className="w-max">
-            <h1 className="text-heading text-4xl font-bold lg:text-6xl">
+            <h1 className="text-heading text-4xl font-bold sm:text-6xl">
               Retention Insights
             </h1>
             <hr className="border-accent mt-4 mb-2 w-full border-2" />
@@ -55,7 +55,10 @@ const RetentionInsights = () => {
           </div>
           <SummaryCard data={summaryCardData} />
         </div>
-        <CampaignActivity data={campaignActivityData} />
+        <CampaignActivity
+          data={campaignActivityData}
+          className="hidden lg:flex"
+        />
       </div>
 
       <GlassLayout
@@ -94,11 +97,10 @@ const RetentionInsights = () => {
         )}
       </GlassLayout>
 
-      {/* Summary card for mobile */}
-      <div className="block lg:hidden">
-        <SummaryCard data={summaryCardData} />
-      </div>
-
+      <CampaignActivity
+        data={campaignActivityData}
+        className="flex lg:hidden"
+      />
       {/* Footer Panel */}
       <FooterPanel data={footerSuggestionsAndAnalyticsData} />
     </div>
