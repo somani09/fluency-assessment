@@ -120,7 +120,13 @@ const LineChart = ({
   );
 
   return (
-    <ApexChart type="area" series={series} options={options} height="100%" />
+    <ApexChart
+      type="area"
+      series={series}
+      options={options}
+      height="100%"
+      width="100%"
+    />
   );
 };
 

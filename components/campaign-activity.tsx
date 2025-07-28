@@ -1,6 +1,3 @@
-"use client";
-
-import { cn } from "@/app/utils";
 import GlassLayout from "@/components/layouts/glass-layout";
 import type { CampaignActivityItem } from "@/app/types-and-interfaces";
 

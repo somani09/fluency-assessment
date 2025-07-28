@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import { FiActivity, FiTrendingUp, FiZap } from "react-icons/fi";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 import { cn, getCumulativeData } from "@/app/utils";
-import {
-  getGlassButtonClasses,
-  glassPanelClass,
-  secondaryButtonClass,
-} from "@/app/css-utils";
+import { glassPanelClass } from "@/app/css-utils";
 import LineChart from "@/components/apex-charts/line-chart";
-import BarChart from "@/components/apex-charts/bar-chart"; // 👈 Import BarChart
+import BarChart from "@/components/apex-charts/bar-chart";
 import { newUserDataConfig } from "../chart-data";
 import SummaryCard from "@/components/summary-card";
 import {
@@ -21,6 +16,9 @@ import {
 } from "../community-health-data";
 import CampaignActivity from "@/components/campaign-activity";
 import FooterPanel from "@/components/footer/footer";
+import GlassLayout from "@/components/layouts/glass-layout";
+import { BsGearFill } from "react-icons/bs";
+import ChartGearBox from "@/components/apex-charts/chart-gear-box";
 
 const CHART_TYPES = ["line", "bar"] as const;
 type ChartType = (typeof CHART_TYPES)[number];
@@ -28,6 +26,7 @@ type ChartType = (typeof CHART_TYPES)[number];
 const CommunityHealth = () => {
   const [chartType, setChartType] = useState<ChartType>("line");
   const [showCumulative, setShowCumulative] = useState(false);
+  const [gearOpen, setGearOpen] = useState(false);
 
   const rawCounts = newUserDataConfig.map((d) => d.count);
   const counts = showCumulative ? getCumulativeData(rawCounts) : rawCounts;
@@ -44,7 +43,7 @@ const CommunityHealth = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col space-y-8 p-6">
+    <div className="relative flex min-h-screen flex-col space-y-8 p-6 pb-12">
       <div className="flex h-max w-full gap-5">
         <div className="flex flex-col items-start justify-between lg:w-[60%]">
           <div className="w-max">
@@ -54,76 +53,56 @@ const CommunityHealth = () => {
             <hr className="border-accent mt-4 mb-2 w-full border-2" />
           </div>
           <div className="mb-5 flex text-sm sm:text-base">
-            <p className="font-bold">Date Range: &nb </p>
+            <p className="font-bold">Date Range:&nbsp;</p>
             <p className="font-normal">2025-07-01 - 2025-07-14</p>
           </div>
           <SummaryCard data={summaryCardData} />
         </div>
         <CampaignActivity data={campaignActivityData} />
       </div>
-      {/* Cards */}
-      <div className="hidden w-[600px] lg:block"></div>
 
-      {/* Chart Controls */}
-      <div className="mb-0 flex flex-col space-y-1">
-        <h2 className="text-heading text-2xl font-semibold">Chart Type</h2>
-        <p className="text-subheading mt-1 text-sm">
-          Choose how to visualize new user growth
-        </p>
-        <div className="flex flex-wrap items-end justify-between gap-4 sm:flex-nowrap sm:items-end">
-          <div className="flex flex-wrap items-center gap-4">
-            {CHART_TYPES.map((type) => (
-              <button
-                key={type}
-                onClick={() => setChartType(type)}
-                className={cn(
-                  secondaryButtonClass,
-                  chartType === type && "bg-primary text-white",
-                )}
-              >
-                {type === "line"
-                  ? "Line Chart"
-                  : type === "bar"
-                    ? "Bar Chart"
-                    : "Line Chart"}
-              </button>
-            ))}
-          </div>
-
-          <button
-            onClick={() => setShowCumulative((prev) => !prev)}
-            className={cn(
-              getGlassButtonClasses(showCumulative),
-              "w-max px-2 py-1",
-            )}
-          >
-            Show Cumulative{" "}
-          </button>
-        </div>
-      </div>
-
-      {/* Chart Display */}
-      <div
-        className={cn(
-          "mt-4 h-[400px] w-full rounded-xl pb-4 pl-4",
-          glassPanelClass,
-          "bg-glass/5 border-border/50 border-1",
-        )}
+      {/* Chart Display with Glass Panel */}
+      <GlassLayout
+        className="relative mt-4 w-full"
+        backgroundClassName="bg-white/10 blur-[10px]"
+        contentClassName="backdrop-blur-[32px] h-[350px]"
       >
+        {/* Gear Icon */}
+        <button
+          onClick={() => setGearOpen((prev) => !prev)}
+          className={cn(
+            "border-secondary hover:border-primary hover:text-primary text-secondary absolute top-4 right-4 z-50 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-2 shadow transition-all",
+            gearOpen && "opacity-50",
+          )}
+        >
+          <BsGearFill className="h-4 w-4" />
+        </button>
+
+        {/* Config Panel */}
+        {gearOpen && (
+          <ChartGearBox
+            onClose={() => setGearOpen(false)}
+            chartType={chartType}
+            setChartType={setChartType}
+            showCumulative={showCumulative}
+            setShowCumulative={setShowCumulative}
+          />
+        )}
+
+        {/* Chart */}
         {chartType === "line" && (
           <LineChart {...chartProps} isCumulative={showCumulative} />
         )}
         {chartType === "bar" && (
           <BarChart {...chartProps} isCumulative={showCumulative} />
         )}
-        {/* Placeholder for now */}
-      </div>
-
+      </GlassLayout>
+      {/* Summary card for mobile */}
       <div className="block lg:hidden">
         <SummaryCard data={summaryCardData} />
       </div>
 
-      {/* Footer */}
+      {/* Footer Panel */}
       <FooterPanel data={footerSuggestionsAndAnalyticsData} />
     </div>
   );

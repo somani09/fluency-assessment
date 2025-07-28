@@ -15,7 +15,7 @@ interface FooterPanelProps {
 }
 
 const FooterPanel = ({ data }: FooterPanelProps) => {
-  const [footerOpen, setFooterOpen] = useState(true);
+  const [footerOpen, setFooterOpen] = useState(false);
   const [view, setView] = useState<"suggestions" | "analytics">("suggestions");
 
   return (
