@@ -87,7 +87,7 @@ export default function SummaryCard({ data }: SummaryCardProps) {
             </div>
           </div>
 
-          <div className="xs:flex-row item-start xs:items-end flex h-max flex-col gap-4 sm:gap-6">
+          <div className="xs:flex-row item-start xs:items-end flex h-max min-h-0 flex-col items-stretch gap-4 sm:gap-6">
             <div className="flex items-end gap-1">
               <p className="text-6xl font-bold text-green-600 sm:text-8xl">
                 {data.heroStat}
@@ -96,7 +96,8 @@ export default function SummaryCard({ data }: SummaryCardProps) {
                 {data.heroLabel}
               </p>
             </div>
-            <div className="border-accent xs:block hidden h-full w-[2px]" />
+            <hr className="border-accent xs:h-24 hidden h-16 border-1 sm:block" />
+
             <div className="flex items-end gap-1">
               <p className="text-3xl font-normal text-red-500 sm:text-5xl">
                 {data.secondaryStat}

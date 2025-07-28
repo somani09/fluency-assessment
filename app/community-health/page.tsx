@@ -40,19 +40,22 @@ const CommunityHealth = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col space-y-8 px-8 py-12">
-      <div className="flex w-full items-end justify-between">
-        <div>
+      <div className="flex-col items-end justify-between lg:w-[60%] xl:w-[40%]">
+        <div className="w-max">
           <h1 className="text-heading text-4xl font-bold lg:text-6xl">
             New User Growth
           </h1>
-          <hr className="border-accent mt-4 mb-4 w-full border-2" />
+          <hr className="border-accent mt-4 mb-2 w-full border-2" />
         </div>
+        <div className="mb-5 flex text-sm sm:text-base">
+          <p className="font-bold">Date Range: </p>
+          <p className="font-normal">2025-07-01 - 2025-07-14</p>
+        </div>
+        <SummaryCard data={summaryCardData} />
       </div>
 
       {/* Cards */}
-      <div className="hidden w-[600px] lg:block">
-        <SummaryCard data={summaryCardData} />
-      </div>
+      <div className="hidden w-[600px] lg:block"></div>
 
       {/* Chart Controls */}
       <div className="mb-0 flex flex-col space-y-1">
