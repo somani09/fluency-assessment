@@ -12,6 +12,7 @@ interface GlassLayoutProps {
   disableContentStyles?: boolean;
   className?: string;
   noImage?: boolean;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 export default function GlassLayout({
@@ -22,9 +23,11 @@ export default function GlassLayout({
   disableContentStyles = false,
   className,
   noImage = false,
+  ref,
 }: GlassLayoutProps) {
   return (
     <div
+      ref={ref}
       className={cn(
         "shadow-primary/50 relative h-full w-full overflow-hidden rounded-2xl shadow-2xl",
         className,

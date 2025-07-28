@@ -11,7 +11,7 @@ export default function ClientRoot({
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function ClientRoot({
     };
 
     const handleMouseLeave = () => {
-      if (window.innerWidth >= 640) setSidebarOpen(false); // Only on md+
+      if (window.innerWidth >= 640) setSidebarOpen(true); // Only on md+
     };
 
     node.addEventListener("mouseenter", handleMouseEnter);
@@ -35,45 +35,45 @@ export default function ClientRoot({
     };
   }, []);
   return (
-    <ThemeProvider
-      attribute="class" // Uses `class="light"` or `class="dark"`
-      defaultTheme="light" // Force light mode by default
-      enableSystem={false} // Disable system theme detection
-    >
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <div className="bg-surface-alt/20 relative flex h-max">
+        {/* Mobile Hamburger Button */}
         <button
           onClick={() => setSidebarOpen(true)}
           className={cn(
-            "z-50 flex h-16 w-16 items-center justify-center rounded-full md:hidden",
+            "z-50 flex h-10 w-10 items-center justify-center rounded-full sm:hidden",
             "bg-glass/20 border-primary/10 border-2 backdrop-blur-[6px]",
             shadowDepthPrimary,
             "translate-z-0 transition-opacity duration-300 ease-in-out will-change-[opacity]",
-            "fixed bottom-2 left-2 md:top-[161px] md:bottom-auto md:left-[34px]",
+            "fixed top-20 right-[10px]",
             sidebarOpen ? "pointer-events-none opacity-0" : "opacity-100",
           )}
         >
           <div className="space-y-1">
-            <span className="bg-primary block h-0.5 w-6"></span>
-            <span className="bg-primary block h-0.5 w-6"></span>
-            <span className="bg-primary block h-0.5 w-6"></span>
+            <span className="bg-secondary block h-0.5 w-6"></span>
+            <span className="bg-secondary block h-0.5 w-6"></span>
+            <span className="bg-secondary block h-0.5 w-6"></span>
           </div>
         </button>
 
+        {/* Sidebar Container */}
         <div
           ref={sidebarRef}
           className={cn(
-            "fixed top-0 left-0 z-50 h-full transition-all duration-300 ease-in-out",
+            "fixed top-0 z-50 h-full transition-all duration-300 ease-in-out",
+            // 👇 Dynamic positioning
             sidebarOpen
-              ? "pointer-events-auto w-96 scale-100 md:w-96"
-              : "pointer-events-none w-0 md:pointer-events-auto md:w-[120px] md:scale-100",
-            "origin-[30px_calc(100%-30px)] md:origin-[64px_64px]",
-            !sidebarOpen && "scale-0 md:scale-100",
+              ? "pointer-events-auto right-0 w-80 scale-100 sm:left-0 sm:w-96"
+              : "pointer-events-none right-0 w-0 sm:pointer-events-auto sm:left-0 sm:w-[120px] sm:scale-100",
+            // 👇 Origin changes based on screen
+            "origin-[calc(100%-30px)_100px] sm:origin-[64px_64px]",
+            !sidebarOpen && "scale-0 sm:scale-100",
           )}
         >
           <Sidebar onClose={() => setSidebarOpen(false)} open={sidebarOpen} />
         </div>
 
-        <main className="h-max w-full flex-1 md:pl-[120px]">{children}</main>
+        <main className="h-max w-full flex-1 sm:pl-[120px]">{children}</main>
       </div>
     </ThemeProvider>
   );
