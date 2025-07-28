@@ -72,53 +72,65 @@ export default function SummaryCard({ data }: SummaryCardProps) {
         }}
       >
         {/* Front Side */}
-        <div className="relative min-w-full p-4 pr-6">
+
+        <div className="relative flex min-w-full p-4 pr-6">
           <button
             onClick={toggleCard}
-            className="bg-glass/20 absolute top-1/2 right-0 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px]"
+            className="bg-glass/20 absolute top-1/2 right-0 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px] 2xl:hidden"
             aria-label="View insights"
           >
             <TbTriangle className="text-secondary h-3.5 w-3.5 rotate-90" />
           </button>
+          <div className="relative w-max">
+            <div className="mb-4 flex items-start justify-between pr-5">
+              <div className="text-heading flex items-center text-lg font-bold sm:text-xl">
+                <>{data.title}: </> {renderStars(data.rating)}
+              </div>
+            </div>
 
-          <div className="mb-4 flex items-start justify-between pr-5">
-            <div className="text-heading flex items-center text-lg font-bold sm:text-xl">
-              <>{data.title}: </> {renderStars(data.rating)}
+            <div className="xs:flex-row item-start xs:items-end flex h-max min-h-0 flex-col items-stretch gap-4 sm:gap-6">
+              <div className="flex items-end gap-1">
+                <p className="text-6xl font-bold text-green-600 sm:text-8xl">
+                  {data.heroStat}
+                </p>
+                <p className="text-sm font-normal whitespace-nowrap sm:text-base">
+                  {data.heroLabel}
+                </p>
+              </div>
+              <hr className="border-accent xs:h-24 hidden h-16 border-1 sm:block" />
+
+              <div className="flex items-end gap-1">
+                <p className="text-3xl font-normal text-red-500 sm:text-5xl">
+                  {data.secondaryStat}
+                </p>
+                <p className="text-xs font-normal whitespace-nowrap sm:text-base">
+                  {data.secondaryLabel}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-border mt-1 border-t pt-4 text-sm">
+              <span className="font-semibold">Highlight : </span>
+              <span className="text-muted-foreground">{data.insight}</span>
             </div>
           </div>
+          <hr className="border-accent mx-4 hidden h-full border-1 2xl:block" />
 
-          <div className="xs:flex-row item-start xs:items-end flex h-max min-h-0 flex-col items-stretch gap-4 sm:gap-6">
-            <div className="flex items-end gap-1">
-              <p className="text-6xl font-bold text-green-600 sm:text-8xl">
-                {data.heroStat}
-              </p>
-              <p className="text-sm font-normal whitespace-nowrap sm:text-base">
-                {data.heroLabel}
-              </p>
-            </div>
-            <hr className="border-accent xs:h-24 hidden h-16 border-1 sm:block" />
-
-            <div className="flex items-end gap-1">
-              <p className="text-3xl font-normal text-red-500 sm:text-5xl">
-                {data.secondaryStat}
-              </p>
-              <p className="text-xs font-normal whitespace-nowrap sm:text-base">
-                {data.secondaryLabel}
-              </p>
-            </div>
-          </div>
-
-          <div className="border-border mt-1 border-t pt-4 text-sm">
-            <span className="font-semibold">Highlight : </span>
-            <span className="text-muted-foreground">{data.insight}</span>
+          <div className="relative ml-2 hidden w-max 2xl:block">
+            <p className="text-secondary text-lg font-medium sm:text-xl">
+              {data.swipeInsight.highlight}
+            </p>
+            <p className="text-secondary text-base font-light sm:text-lg">
+              {data.swipeInsight.description}
+            </p>
           </div>
         </div>
 
         {/* Back Side */}
-        <div className="relative min-w-full p-4 pl-8">
+        <div className="relative flex min-w-full flex-col p-4 pl-8 2xl:hidden">
           <button
             onClick={toggleCard}
-            className="bg-glass/20 absolute top-1/2 left-0 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px]"
+            className="bg-glass/20 absolute top-1/2 left-0 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px] 2xl:hidden"
             aria-label="Back to stats"
           >
             <TbTriangle className="text-secondary h-3.5 w-3.5 -rotate-90" />

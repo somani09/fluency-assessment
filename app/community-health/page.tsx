@@ -40,7 +40,7 @@ const CommunityHealth = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col space-y-8 px-8 py-12">
-      <div className="flex-col items-end justify-between lg:w-[60%] xl:w-[40%]">
+      <div className="flex-col items-end justify-between lg:w-[60%]">
         <div className="w-max">
           <h1 className="text-heading text-4xl font-bold lg:text-6xl">
             New User Growth
