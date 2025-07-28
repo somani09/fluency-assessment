@@ -10,6 +10,7 @@ interface GlassLayoutProps {
   contentClassName?: string;
   disableBackgroundStyles?: boolean;
   disableContentStyles?: boolean;
+  className?: string;
 }
 
 export default function GlassLayout({
@@ -18,9 +19,15 @@ export default function GlassLayout({
   contentClassName = "",
   disableBackgroundStyles = false,
   disableContentStyles = false,
+  className,
 }: GlassLayoutProps) {
   return (
-    <div className="shadow-primary/50 relative h-full w-full overflow-hidden rounded-2xl shadow-2xl">
+    <div
+      className={cn(
+        "shadow-primary/50 relative h-full w-full overflow-hidden rounded-2xl shadow-2xl",
+        className,
+      )}
+    >
       <div
         className={cn(
           "absolute inset-0 z-0 h-full w-full rounded-2xl p-4",
@@ -43,7 +50,7 @@ export default function GlassLayout({
 
       <div
         className={cn(
-          "relative z-10 rounded-2xl",
+          "relative z-10 h-full w-full rounded-2xl",
           !disableContentStyles &&
             "border-border/50 bg-glass/10 border backdrop-blur-[10px]",
           contentClassName,

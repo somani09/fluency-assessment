@@ -53,7 +53,7 @@ export default function SummaryCard({ data }: SummaryCardProps) {
   };
 
   return (
-    <GlassLayout>
+    <GlassLayout className="h-auto">
       <div
         className={cn(
           "relative flex transition-transform duration-300 ease-in-out",

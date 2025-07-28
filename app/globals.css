@@ -111,6 +111,9 @@
   --color-accent-1: #71a5de;
   --color-accent-2: #83b0e1;
 
+  --color-success: #52b788;
+  --color-caution: #ffd500;
+
   /* // 🔄 ALT (CHATGPT SUGGESTED) 
   --color-heading: var(--color-midnight-800);
   --color-subheading: var(--color-midnight-600);

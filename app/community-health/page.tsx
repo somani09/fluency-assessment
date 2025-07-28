@@ -14,7 +14,13 @@ import LineChart from "@/components/apex-charts/line-chart";
 import BarChart from "@/components/apex-charts/bar-chart"; // 👈 Import BarChart
 import { newUserDataConfig } from "../chart-data";
 import SummaryCard from "@/components/summary-card";
-import { summaryCardData } from "../community-health-data";
+import {
+  campaignActivityData,
+  footerSuggestionsAndAnalyticsData,
+  summaryCardData,
+} from "../community-health-data";
+import CampaignActivity from "@/components/campaign-activity";
+import FooterPanel from "@/components/footer/footer";
 
 const CHART_TYPES = ["line", "bar"] as const;
 type ChartType = (typeof CHART_TYPES)[number];
@@ -40,20 +46,23 @@ const CommunityHealth = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col space-y-8 px-8 py-12">
-      <div className="flex-col items-end justify-between lg:w-[60%]">
-        <div className="w-max">
-          <h1 className="text-heading text-4xl font-bold lg:text-6xl">
-            New User Growth
-          </h1>
-          <hr className="border-accent mt-4 mb-2 w-full border-2" />
+      <div className="flex w-full flex-row"></div>
+      <div className="flex h-max w-full gap-5">
+        <div className="flex flex-col items-start justify-between lg:w-[60%]">
+          <div className="w-max">
+            <h1 className="text-heading text-4xl font-bold lg:text-6xl">
+              New User Growth
+            </h1>
+            <hr className="border-accent mt-4 mb-2 w-full border-2" />
+          </div>
+          <div className="mb-5 flex text-sm sm:text-base">
+            <p className="font-bold">Date Range: </p>
+            <p className="font-normal">2025-07-01 - 2025-07-14</p>
+          </div>
+          <SummaryCard data={summaryCardData} />
         </div>
-        <div className="mb-5 flex text-sm sm:text-base">
-          <p className="font-bold">Date Range: </p>
-          <p className="font-normal">2025-07-01 - 2025-07-14</p>
-        </div>
-        <SummaryCard data={summaryCardData} />
+        <CampaignActivity data={campaignActivityData} />
       </div>
-
       {/* Cards */}
       <div className="hidden w-[600px] lg:block"></div>
 
@@ -117,81 +126,7 @@ const CommunityHealth = () => {
       </div>
 
       {/* Footer */}
-      <div
-        className={cn(
-          "fixed bottom-0 z-40 transition-transform duration-300 ease-in-out",
-          "left-0 w-full sm:left-[120px] sm:w-[calc(100%-120px)]",
-          footerOpen ? "translate-y-0" : "translate-y-[calc(100%-2.75rem)]",
-        )}
-      >
-        <div
-          className={cn(
-            "relative flex flex-col backdrop-blur-md",
-            glassPanelClass,
-            "bg-glass/15 border-border/50 border-t sm:rounded-t-2xl",
-          )}
-        >
-          <div className="flex h-11 items-center justify-between px-6">
-            <h3 className="text-heading text-sm font-semibold">
-              Weekly Acquisition Summary
-            </h3>
-            <button
-              className="text-heading cursor-pointer"
-              onClick={() => setFooterOpen(!footerOpen)}
-              aria-label="Toggle footer"
-            >
-              {footerOpen ? (
-                <MdKeyboardArrowDown size={20} />
-              ) : (
-                <MdKeyboardArrowUp size={20} />
-              )}
-            </button>
-          </div>
-
-          <div
-            className={cn(
-              "grid overflow-hidden transition-all duration-300 ease-in-out",
-              footerOpen
-                ? "max-h-[500px] grid-rows-[1fr] pt-2 pb-5 opacity-100"
-                : "max-h-0 grid-rows-[0fr] opacity-0",
-            )}
-          >
-            <div className="flex flex-col gap-4 px-6">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <span className="text-heading text-base font-medium">
-                  Overall Score
-                </span>
-                <span className="bg-primary rounded-full px-4 py-1 text-sm font-medium text-white">
-                  8.7 / 10
-                </span>
-              </div>
-
-              <div className="text-subheading flex flex-wrap items-center gap-6 text-sm">
-                <div>
-                  <strong className="text-heading">Avg/day:</strong> 4.5 users
-                </div>
-                <div>
-                  <strong className="text-heading">Best day:</strong> Day 9 (13
-                  users)
-                </div>
-                <div>
-                  <strong className="text-heading">Low activity days:</strong> 7
-                  of 14
-                </div>
-                <div>
-                  <strong className="text-heading">Zero-user days:</strong> 2
-                </div>
-              </div>
-
-              <div className="text-subheading text-sm leading-snug">
-                <strong className="text-heading">Suggestions:</strong> Try
-                boosting awareness on low-performing days and track referral
-                source data to optimize acquisition strategies.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <FooterPanel data={footerSuggestionsAndAnalyticsData} />
     </div>
   );
 };

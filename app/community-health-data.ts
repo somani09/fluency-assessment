@@ -230,18 +230,21 @@ export const footerSuggestionsAndAnalyticsData: FooterSuggestionsAndAnalytics =
       {
         title: "Double Down on Flash Sales",
         icon: BiTargetLock,
+        iconClassName: "text-success",
         insight: "Your last Flash Sale brought 23 users with only 3% churn.",
         dataAnchor: "Stickiness Score: 46.5",
       },
       {
         title: "Re-balance Q&A Timing",
         icon: RiSurveyLine,
+        iconClassName: "text-caution",
         insight: "High replies, but most users unsubscribed within 2 days.",
         dataAnchor: "Unsubscribe Rate: 22%",
       },
       {
         title: "Use Exclusive Content as a Follow-up",
         icon: TbStars,
+        iconClassName: "text-twilight-blue-violet-400",
         insight:
           "Your last Flash Sale brought strong growth; Exclusive Content helped sustain it.",
         dataAnchor: "Avg Churn Time: 5 days",
