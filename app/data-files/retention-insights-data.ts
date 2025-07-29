@@ -17,7 +17,7 @@ export const summaryCardData: SummaryCard = {
   title: "Subscriber Stability Score",
   rating: 3,
   heroStat: "+14",
-  heroLabel: "Net Users Lost",
+  heroLabel: "Net Users Gain",
   secondaryStat: "12%",
   secondaryLabel: "Churn Rate",
   insight: "Best Retention from Giveaway Campaign",
