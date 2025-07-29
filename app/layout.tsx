@@ -9,9 +9,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "User Analytics Dashboard",
+  title: "Campaign Retention & Growth Dashboard",
   description:
-    "An interactive user analytics dashboard featuring growth insights, gain/loss trends, and dynamic charts built with Next.js, ApexCharts, and a modern UI.",
+    "A modern, glassmorphic analytics dashboard visualizing user growth, campaign retention, and engagement trends with interactive line/bar charts and dynamic tooltips — built using Next.js and ApexCharts.",
   icons: {
     icon: "/favicon.ico",
   },
