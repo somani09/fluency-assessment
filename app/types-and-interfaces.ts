@@ -35,8 +35,8 @@ export interface CommunityHealthChartData {
 
 export interface CampaignSuggestion {
   title: string;
-  icon: IconType;
-  iconClassName: string;
+  icon?: IconType;
+  iconClassName?: string;
   insight: string;
   dataAnchor: string;
 }
