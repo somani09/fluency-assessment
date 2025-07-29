@@ -78,7 +78,7 @@ const FooterPanel = ({ data }: FooterPanelProps) => {
         >
           <div className="flex max-w-full flex-col gap-4 overflow-hidden px-6">
             {/* Toggle Button */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-start justify-between sm:flex-nowrap">
               {/* Description */}
               <p className="text-subheading text-lg font-light sm:text-xl">
                 {isSuggestionsView
@@ -90,6 +90,7 @@ const FooterPanel = ({ data }: FooterPanelProps) => {
                 isSelected
                 onClick={toggleView}
                 aria-label={toggleText}
+                className="whitespace-nowrap"
               >
                 <ToggleIcon className="h-4 w-4 shrink-0" />
                 {toggleText}

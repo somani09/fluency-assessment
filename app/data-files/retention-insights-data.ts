@@ -20,7 +20,7 @@ export const summaryCardData: SummaryCard = {
   heroLabel: "Net Users Lost",
   secondaryStat: "12%",
   secondaryLabel: "Churn Rate",
-  insight: "Best Retention from Giveaway Campaign 🎁",
+  insight: "Best Retention from Giveaway Campaign",
   swipeInsight: {
     highlight: "Giveaway drove sustained engagement with lowest churn.",
     description:
