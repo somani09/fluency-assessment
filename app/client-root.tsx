@@ -11,7 +11,7 @@ export default function ClientRoot({
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseEnter = () => {
