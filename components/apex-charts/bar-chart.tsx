@@ -22,6 +22,12 @@ interface BarChartProps {
   isCumulative?: boolean;
 }
 
+const axisTitleStyle = {
+  color: "#061A40",
+  fontSize: "16px",
+  fontWeight: 500,
+};
+
 const BarChart = ({
   data,
   xLabels,
@@ -36,13 +42,12 @@ const BarChart = ({
     () => data.map((v) => (v === 0 ? null : v)),
     [data],
   );
-
   const series = useMemo(
     () => [{ name: title, data: sanitizedData }],
     [sanitizedData, title],
   );
-
   const { minY, maxY } = useMemo(() => calculateMinMaxY(data), [data]);
+  const axisStyle = useMemo(() => getCommonAxisStyle(), []);
 
   const options: ApexOptions = useMemo(
     () => ({
@@ -74,28 +79,20 @@ const BarChart = ({
       },
       colors: [color],
       xaxis: {
-        ...getCommonAxisStyle().xaxis,
+        ...axisStyle.xaxis,
         categories: xLabels,
         title: {
           text: xAxisLabel,
-          style: {
-            color: "#061A40",
-            fontSize: "16px",
-            fontWeight: 500,
-          },
+          style: axisTitleStyle,
         },
       },
       yaxis: {
-        ...getCommonAxisStyle().yaxis,
+        ...axisStyle.yaxis,
         min: minY,
         max: maxY,
         title: {
           text: yAxisLabel,
-          style: {
-            color: "#061A40",
-            fontSize: "16px",
-            fontWeight: 500,
-          },
+          style: axisTitleStyle,
         },
       },
       annotations: {
@@ -130,9 +127,10 @@ const BarChart = ({
         },
       },
       dataLabels: { enabled: false },
-      grid: getCommonAxisStyle().grid,
+      grid: axisStyle.grid,
     }),
     [
+      axisStyle,
       xLabels,
       color,
       xAxisLabel,

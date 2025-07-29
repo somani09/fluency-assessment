@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { BsBarChartFill } from "react-icons/bs";
+import { TbBulbFilled } from "react-icons/tb";
 
 import { cn } from "@/app/utils";
-import { secondaryButtonClass } from "@/app/css-utils";
+import GlassLayout from "@/components/layouts/glass-layout";
 import type { FooterSuggestionsAndAnalytics } from "@/app/types-and-interfaces";
 import SuggestionsCard from "./suggestion-card";
 import AnalyticsCard from "./analytics-card";
-import GlassLayout from "@/components/layouts/glass-layout";
+import { Button } from "../buttons/button";
+import { useCloseOnEscape, useCloseOnOutsideClick } from "@/app/hooks";
 
 interface FooterPanelProps {
   data: FooterSuggestionsAndAnalytics;
@@ -18,8 +21,21 @@ const FooterPanel = ({ data }: FooterPanelProps) => {
   const [footerOpen, setFooterOpen] = useState(false);
   const [view, setView] = useState<"suggestions" | "analytics">("suggestions");
 
+  const ref = useRef<HTMLDivElement | null>(null);
+  useCloseOnOutsideClick(ref, () => setFooterOpen(false));
+  useCloseOnEscape(() => setFooterOpen(false));
+
+  const toggleView = () => {
+    setView((prev) => (prev === "suggestions" ? "analytics" : "suggestions"));
+  };
+
+  const isSuggestionsView = view === "suggestions";
+  const ToggleIcon = isSuggestionsView ? BsBarChartFill : TbBulbFilled;
+  const toggleText = isSuggestionsView ? "Show Analytics" : "Show Suggestions";
+
   return (
     <div
+      ref={ref}
       className={cn(
         "fixed bottom-0 z-40 transition-transform duration-300 ease-in-out",
         "left-0 w-full sm:left-[120px] sm:w-[calc(100%-120px)]",
@@ -31,11 +47,15 @@ const FooterPanel = ({ data }: FooterPanelProps) => {
         contentClassName="backdrop-blur-[24px] rounded-b-none"
         className="rounded-b-none"
       >
+        {/* Header Bar */}
         <div
           role="button"
           tabIndex={0}
           onClick={() => setFooterOpen(!footerOpen)}
           className="flex h-16 cursor-pointer items-center justify-between px-6"
+          aria-label={
+            footerOpen ? "Collapse footer panel" : "Expand footer panel"
+          }
         >
           <h3 className="text-heading text-2xl font-semibold underline">
             {data.sectionTitle}
@@ -57,42 +77,40 @@ const FooterPanel = ({ data }: FooterPanelProps) => {
           )}
         >
           <div className="flex max-w-full flex-col gap-4 overflow-hidden px-6">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setView("suggestions")}
-                className={cn(
-                  secondaryButtonClass,
-                  view === "suggestions" && "bg-primary text-white",
-                )}
+            {/* Toggle Button */}
+            <div className="flex items-center justify-between">
+              {/* Description */}
+              <p className="text-subheading text-lg font-light sm:text-xl">
+                {isSuggestionsView
+                  ? data.suggestionsDescription
+                  : data.analyticsDescription}
+              </p>
+              <Button
+                variant="secondary"
+                isSelected
+                onClick={toggleView}
+                aria-label={toggleText}
               >
-                Show Suggestions
-              </button>
-              <button
-                onClick={() => setView("analytics")}
-                className={cn(
-                  secondaryButtonClass,
-                  view === "analytics" && "bg-primary text-white",
-                )}
-              >
-                Show Analytics
-              </button>
+                <ToggleIcon className="h-4 w-4 shrink-0" />
+                {toggleText}
+              </Button>
             </div>
 
-            <p className="text-subheading text-lg font-light sm:text-xl">
-              {view === "suggestions"
-                ? data.suggestionsDescription
-                : data.analyticsDescription}
-            </p>
-
-            <div className="scrollbar flex justify-start gap-4 overflow-x-auto scroll-smooth px-1 pt-1 pb-1">
-              {view === "suggestions" &&
-                data.suggestions.map((item, idx) => (
-                  <SuggestionsCard key={`sugg-${idx}`} data={item} />
-                ))}
-              {view === "analytics" &&
-                data.analytics.map((item, idx) => (
-                  <AnalyticsCard key={`ana-${idx}`} data={item} />
-                ))}
+            {/* Card Section */}
+            <div
+              role="region"
+              aria-label={
+                isSuggestionsView ? "Suggestions list" : "Analytics list"
+              }
+              className="scrollbar flex justify-start gap-4 overflow-x-auto scroll-smooth px-1 pt-1 pb-1"
+            >
+              {isSuggestionsView
+                ? data.suggestions.map((item, idx) => (
+                    <SuggestionsCard key={`sugg-${idx}`} data={item} />
+                  ))
+                : data.analytics.map((item, idx) => (
+                    <AnalyticsCard key={`ana-${idx}`} data={item} />
+                  ))}
             </div>
           </div>
         </div>

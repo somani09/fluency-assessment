@@ -1,5 +1,3 @@
-// components/ui/button.tsx
-
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/app/utils";
 
@@ -13,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const baseClasses =
-  "px-2 py-1 flex flex-row items-center gap-2 text-base cursor-pointer font-normal border rounded-md transition-all duration-200 ease-in-out hover:font-medium  rounded-xl";
+  "px-2 py-1 flex flex-row items-center gap-2 text-base cursor-pointer font-normal border transition-all duration-200 ease-in-out rounded-xl";
 
 const variantStyles: Record<
   Variant,
@@ -53,13 +51,15 @@ export const Button = ({
 
   return (
     <button
+      type="button"
       onClick={onClick}
+      aria-pressed={isSelected || undefined}
       className={cn(
         baseClasses,
-        isSelected ? "font-medium" : "",
         isSelected ? styles.selected : styles.default,
         styles.text,
         styles.hover,
+        isSelected && "font-medium",
         className,
       )}
       {...props}

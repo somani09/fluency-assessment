@@ -3,7 +3,7 @@ import {
   CampaignActivityItem,
   CommunityHealthChartData,
   FooterSuggestionsAndAnalytics,
-} from "./types-and-interfaces";
+} from "../types-and-interfaces";
 
 import { GiShare } from "react-icons/gi";
 import { RiSurveyLine } from "react-icons/ri";

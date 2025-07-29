@@ -16,6 +16,22 @@ export default function SummaryCard({ data }: SummaryCardProps) {
 
   const toggleCard = () => setFlipped((prev) => !prev);
 
+  const handleTouchSwipe = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchStartX = e.changedTouches[0].clientX;
+
+    const handleTouchEnd = (endEvent: TouchEvent) => {
+      const touchEndX = endEvent.changedTouches[0].clientX;
+      const deltaX = touchEndX - touchStartX;
+
+      if (deltaX < -50) setFlipped(true); // swipe left
+      if (deltaX > 50) setFlipped(false); // swipe right
+
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+
+    document.addEventListener("touchend", handleTouchEnd);
+  };
+
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -59,28 +75,22 @@ export default function SummaryCard({ data }: SummaryCardProps) {
           "relative flex transition-transform duration-300 ease-in-out",
           flipped ? "-translate-x-full" : "translate-x-0",
         )}
-        onTouchStart={(e) => {
-          const touchStartX = e.changedTouches[0].clientX;
-          const handleTouchEnd = (endEvent: TouchEvent) => {
-            const touchEndX = endEvent.changedTouches[0].clientX;
-            const deltaX = touchEndX - touchStartX;
-            if (deltaX < -50) setFlipped(true); // swipe left
-            if (deltaX > 50) setFlipped(false); // swipe right
-            document.removeEventListener("touchend", handleTouchEnd);
-          };
-          document.addEventListener("touchend", handleTouchEnd);
-        }}
+        onTouchStart={handleTouchSwipe}
       >
         {/* Front Side */}
-
-        <div className="relative flex min-w-full p-4 pr-6">
+        <div
+          role="region"
+          aria-label="Summary Stats"
+          className="relative flex min-w-full p-4 pr-6"
+        >
           <button
             onClick={toggleCard}
-            className="bg-glass/20 absolute top-1/2 right-0 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px] 2xl:hidden"
+            className="bg-glass/20 absolute top-1/2 right-0 z-10 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px] 2xl:hidden"
             aria-label="View insights"
           >
             <TbTriangle className="text-secondary h-3.5 w-3.5 rotate-90" />
           </button>
+
           <div className="relative w-max">
             <div className="mb-4 flex items-start justify-between pr-5">
               <div className="text-heading flex items-center text-lg font-bold sm:text-xl">
@@ -114,6 +124,7 @@ export default function SummaryCard({ data }: SummaryCardProps) {
               <span className="text-muted-foreground">{data.insight}</span>
             </div>
           </div>
+
           <hr className="border-accent mx-4 hidden h-full border-1 2xl:block" />
 
           <div className="relative ml-2 hidden w-max 2xl:block">
@@ -127,10 +138,14 @@ export default function SummaryCard({ data }: SummaryCardProps) {
         </div>
 
         {/* Back Side */}
-        <div className="relative flex min-w-full flex-col p-4 pl-8 2xl:hidden">
+        <div
+          role="region"
+          aria-label="Swipe Insight"
+          className="relative flex min-w-full flex-col p-4 pl-8 2xl:hidden"
+        >
           <button
             onClick={toggleCard}
-            className="bg-glass/20 absolute top-1/2 left-0 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px] 2xl:hidden"
+            className="bg-glass/20 absolute top-1/2 left-0 z-10 flex h-full w-4 -translate-y-1/2 items-center justify-center backdrop-blur-[10px] 2xl:hidden"
             aria-label="Back to stats"
           >
             <TbTriangle className="text-secondary h-3.5 w-3.5 -rotate-90" />
@@ -139,7 +154,6 @@ export default function SummaryCard({ data }: SummaryCardProps) {
           <p className="text-heading mb-2 text-lg font-bold sm:mb-4 sm:text-xl">
             Overview :
           </p>
-
           <p className="text-secondary text-lg font-medium sm:text-xl">
             {data.swipeInsight.highlight}
           </p>

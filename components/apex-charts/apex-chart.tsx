@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import type { ApexOptions } from "apexcharts";
+import { JSX, memo } from "react";
 
 // Lazy-load Chart to avoid hydration mismatch
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -18,7 +19,7 @@ const ApexChart = ({
   type,
   height = "100%",
   width = "100%",
-}: ApexChartProps) => {
+}: ApexChartProps): JSX.Element => {
   return (
     <Chart
       options={options}
@@ -30,4 +31,4 @@ const ApexChart = ({
   );
 };
 
-export default ApexChart;
+export default memo(ApexChart);

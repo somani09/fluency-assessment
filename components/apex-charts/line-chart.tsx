@@ -22,6 +22,12 @@ interface LineChartProps {
   isCumulative?: boolean;
 }
 
+const axisTitleStyle = {
+  color: "#061A40",
+  fontSize: "16px",
+  fontWeight: 500,
+};
+
 const LineChart = ({
   data,
   xLabels,
@@ -33,6 +39,8 @@ const LineChart = ({
 }: LineChartProps) => {
   const series = useMemo(() => [{ name: title, data }], [data, title]);
   const { minY, maxY } = useMemo(() => calculateMinMaxY(data), [data]);
+
+  const axisStyle = useMemo(() => getCommonAxisStyle(), []);
 
   const options: ApexOptions = useMemo(
     () => ({
@@ -46,28 +54,20 @@ const LineChart = ({
       fill: getGradientFill(),
       colors: ["#8671E1"],
       xaxis: {
-        ...getCommonAxisStyle().xaxis,
+        ...axisStyle.xaxis,
         categories: xLabels,
         title: {
           text: xAxisLabel,
-          style: {
-            color: "#061A40",
-            fontSize: "16px",
-            fontWeight: 500,
-          },
+          style: axisTitleStyle,
         },
       },
       yaxis: {
-        ...getCommonAxisStyle().yaxis,
+        ...axisStyle.yaxis,
         min: minY,
         max: maxY,
         title: {
           text: yAxisLabel,
-          style: {
-            color: "#061A40",
-            fontSize: "16px",
-            fontWeight: 500,
-          },
+          style: axisTitleStyle,
         },
       },
       annotations: {
@@ -102,9 +102,18 @@ const LineChart = ({
         },
       },
       dataLabels: { enabled: false },
-      grid: getCommonAxisStyle().grid,
+      grid: axisStyle.grid,
     }),
-    [xLabels, xAxisLabel, minY, maxY, yAxisLabel, fullData, isCumulative],
+    [
+      axisStyle,
+      xLabels,
+      xAxisLabel,
+      yAxisLabel,
+      minY,
+      maxY,
+      fullData,
+      isCumulative,
+    ],
   );
 
   return (

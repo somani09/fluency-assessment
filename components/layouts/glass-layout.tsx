@@ -1,51 +1,51 @@
 "use client";
 
-import { cn } from "@/app/utils";
 import Image from "next/image";
 import { ReactNode } from "react";
+import { cn } from "@/app/utils";
 import bgLine from "@/components/icons/bg-line.svg";
+
 interface GlassLayoutProps {
   children: ReactNode;
+  className?: string;
   backgroundClassName?: string;
   contentClassName?: string;
   disableBackgroundStyles?: boolean;
   disableContentStyles?: boolean;
-  className?: string;
   noImage?: boolean;
-  ref?: React.Ref<HTMLDivElement>;
 }
 
 export default function GlassLayout({
   children,
+  className,
   backgroundClassName = "",
   contentClassName = "",
   disableBackgroundStyles = false,
   disableContentStyles = false,
-  className,
   noImage = false,
-  ref,
 }: GlassLayoutProps) {
   return (
     <div
-      ref={ref}
       className={cn(
         "shadow-primary/50 relative h-full w-full overflow-hidden rounded-2xl shadow-2xl",
         className,
       )}
     >
+      {/* Background Layer */}
       <div
         className={cn(
           "absolute inset-0 z-0 h-full w-full rounded-2xl p-4",
           !disableBackgroundStyles &&
-            "border-border/50 bg-glass/05 border blur-[6px]",
+            "border-border/50 bg-glass/5 border blur-[6px]",
           backgroundClassName,
         )}
+        aria-hidden="true"
       >
         <div className="relative h-full w-full">
           {!noImage && (
             <Image
               src={bgLine}
-              alt="Background Graphic"
+              alt="Decorative Background"
               fill
               className="pointer-events-none object-fill select-none"
               priority
@@ -55,6 +55,7 @@ export default function GlassLayout({
         </div>
       </div>
 
+      {/* Foreground Content */}
       <div
         className={cn(
           "relative z-10 h-full w-full rounded-2xl",

@@ -16,22 +16,27 @@ const NavigationButton = ({
   onClick,
   className,
   children,
+  ...rest
 }: NavigationButtonProps) => {
   return (
     <GlassLayout
       className={cn("transition-all duration-300 ease-in-out", className)}
-      backgroundClassName="bg-white/25 blur-[4px] "
+      backgroundClassName="bg-white/25 blur-[4px]"
       contentClassName={cn(
-        "group flex items-center justify-start backdrop-blur-[2px] ",
+        "group flex items-center justify-start gap-28 px-5 py-4 pr-8 text-xl font-medium text-primary backdrop-blur-[2px]",
         "transition-all duration-300 ease-in-out",
-        "px-5 py-4 pr-8 gap-28 text-xl font-medium text-primary",
         "hover:border-border hover:font-bold hover:text-heading",
         isSelected && "bg-heading/95 font-bold text-text-muted",
       )}
     >
       <button
+        type="button"
         onClick={onClick}
         className="flex w-full items-start justify-start gap-4"
+        role="link"
+        aria-current={isSelected ? "page" : undefined}
+        aria-label="Navigation item"
+        {...rest}
       >
         {children}
       </button>

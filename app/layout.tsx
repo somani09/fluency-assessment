@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import { Epilogue, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import ClientRoot from "./client-root";
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-});
-
-const epilogue = Epilogue({
-  subsets: ["latin"],
-  variable: "--font-epilogue",
-});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -34,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="light">
-      <body className={` ${spaceGrotesk.className} antialiased`}>
+      <body
+        suppressHydrationWarning
+        className={` ${spaceGrotesk.className} antialiased`}
+      >
         <ClientRoot>{children}</ClientRoot>
       </body>
     </html>

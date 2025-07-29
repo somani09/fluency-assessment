@@ -8,8 +8,8 @@ import { cn } from "@/app/utils";
 import { FiChevronsLeft } from "react-icons/fi";
 import { MdGroups3, MdInsights } from "react-icons/md";
 import { TbSquareRoundedLetterF } from "react-icons/tb";
-import { getGlassButtonClasses, secondaryButtonClass } from "@/app/css-utils";
 import { CgClose } from "react-icons/cg";
+import { secondaryButtonClass } from "@/app/css-utils";
 import GlassLayout from "./layouts/glass-layout";
 import NavigationButton from "./buttons/navigation-button";
 
@@ -18,6 +18,19 @@ interface SidebarProps {
   onClose?: () => void;
   open?: boolean;
 }
+
+const navItems = [
+  {
+    href: "/community-health",
+    label: "Community Health",
+    icon: MdGroups3,
+  },
+  {
+    href: "/retention-insights",
+    label: "Retention Insights",
+    icon: MdInsights,
+  },
+];
 
 const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -37,22 +50,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
-  const navItems = [
-    {
-      href: "/community-health",
-      label: "Community Health",
-      icon: MdGroups3,
-    },
-    {
-      href: "/retention-insights",
-      label: "Retention Insights",
-      icon: MdInsights,
-    },
-  ];
-
   return (
     <GlassLayout
-      backgroundClassName="bg-white/50 border-0 "
+      backgroundClassName="bg-white/50 border-0"
       contentClassName="border-0 border-l-2 sm:border-r-2 sm:border-l-0"
       noImage
     >
@@ -62,18 +62,29 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
           "relative flex h-screen w-full flex-col justify-between overflow-hidden p-6",
           className,
         )}
+        aria-label="Sidebar Navigation"
       >
+        {/* Close button for sm+ */}
         {open && (
           <FiChevronsLeft
             onClick={() => onClose?.()}
             className="border-secondary hover:border-primary hover:text-primary text-secondary absolute right-2 bottom-8 hidden h-10 w-10 cursor-pointer sm:block"
             role="button"
-            aria-label="Close sidebar"
+            aria-label="Collapse Sidebar"
           />
         )}
-        <div className="border-secondary hover:border-primary hover:text-primary text-secondary absolute top-[84px] right-[14px] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 shadow sm:hidden">
-          <CgClose onClick={onClose} className="h-6 w-6" />
+
+        {/* Mobile close button */}
+        <div
+          className="border-secondary hover:border-primary hover:text-primary text-secondary absolute top-[84px] right-[14px] flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 shadow sm:hidden"
+          role="button"
+          aria-label="Close Sidebar"
+          onClick={onClose}
+        >
+          <CgClose className="h-6 w-6" />
         </div>
+
+        {/* Logo & Title */}
         <div className="flex flex-col items-start">
           <div className="flex items-center justify-center">
             <TbSquareRoundedLetterF
@@ -81,6 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
                 "text-heading shrink-0 transition-all duration-300 ease-in-out",
                 "h-[36px] w-[36px] stroke-[1] sm:h-[60px] sm:w-[60px]",
               )}
+              aria-hidden
             />
             <span
               className={cn(
@@ -94,7 +106,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
           <hr className="border-accent mt-4 mb-2 w-full border-2" />
         </div>
 
-        <nav className="absolute top-1/2 left-0 flex w-full -translate-y-1/2 flex-col items-center gap-10 p-6">
+        {/* Navigation Links */}
+        <nav
+          className="absolute top-1/2 left-0 flex w-full -translate-y-1/2 flex-col items-center gap-10 p-6"
+          aria-label="Main Navigation"
+        >
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href;
             return (
@@ -107,6 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
                         ? "text-muted"
                         : "text-primary group-hover:text-heading",
                     )}
+                    aria-hidden
                   />
                   <span
                     className={cn(
@@ -124,6 +141,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
           })}
         </nav>
 
+        {/* Footer - Projects + Avatar */}
         <div>
           <div
             className={cn(
@@ -138,6 +156,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
               href="https://vaibhav-somani.vercel.app/projects"
               target="_blank"
               className={cn(secondaryButtonClass, "min-w-max font-semibold")}
+              aria-label="View other projects"
             >
               View Projects
             </Link>
@@ -145,12 +164,17 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onClose, open }) => {
 
           <hr className="border-accent-1 mb-4 border-1" />
 
-          <div className="flex flex-col items-start justify-start space-y-2">
-            <div className={cn("flex space-x-6 transition-all duration-300")}>
-              <div className="border-border bg-subheading relative h-15 w-15 shrink-0 overflow-hidden rounded-full border-2">
+          {/* Profile */}
+          <div className="flex flex-col items-start space-y-2">
+            <div className="flex space-x-6">
+              <div
+                className="border-border bg-subheading relative h-15 w-15 shrink-0 overflow-hidden rounded-full border-2"
+                role="img"
+                aria-label="Profile Avatar"
+              >
                 <img
                   src="/avatar.jpeg"
-                  alt="Avatar"
+                  alt="Vaibhav Somani"
                   className="h-full w-full object-cover"
                 />
               </div>

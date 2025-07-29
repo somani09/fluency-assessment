@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import { cn } from "./utils";
 import { ThemeProvider } from "next-themes";
@@ -14,26 +14,18 @@ export default function ClientRoot({
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const node = sidebarRef.current;
-    if (!node) return;
+  const handleMouseEnter = () => {
+    if (window.innerWidth >= 640) {
+      setSidebarOpen(true);
+    }
+  };
 
-    const handleMouseEnter = () => {
-      if (window.innerWidth >= 640) setSidebarOpen(true); // Only on md+
-    };
+  const handleMouseLeave = () => {
+    if (window.innerWidth >= 640) {
+      setSidebarOpen(false);
+    }
+  };
 
-    const handleMouseLeave = () => {
-      if (window.innerWidth >= 640) setSidebarOpen(true); // Only on md+
-    };
-
-    node.addEventListener("mouseenter", handleMouseEnter);
-    node.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      node.removeEventListener("mouseenter", handleMouseEnter);
-      node.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <div className="bg-surface-alt/20 relative flex h-max">
@@ -56,16 +48,15 @@ export default function ClientRoot({
           </div>
         </button>
 
-        {/* Sidebar Container */}
         <div
           ref={sidebarRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           className={cn(
             "fixed top-0 z-50 h-full transition-all duration-300 ease-in-out",
-            // 👇 Dynamic positioning
             sidebarOpen
               ? "pointer-events-auto right-0 w-80 scale-100 sm:left-0 sm:w-96"
               : "pointer-events-none right-0 w-0 sm:pointer-events-auto sm:left-0 sm:w-[120px] sm:scale-100",
-            // 👇 Origin changes based on screen
             "origin-[calc(100%-30px)_100px] sm:origin-[64px_64px]",
             !sidebarOpen && "scale-0 sm:scale-100",
           )}

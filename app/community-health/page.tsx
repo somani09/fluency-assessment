@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { cn, getCumulativeData } from "@/app/utils";
 import LineChart from "@/components/apex-charts/line-chart";
-import BarChart from "@/components/apex-charts/bar-chart"; // commented out
+import BarChart from "@/components/apex-charts/bar-chart";
 import SummaryCard from "@/components/summary-card";
 import {
   campaignActivityData,
   footerSuggestionsAndAnalyticsData,
   summaryCardData,
   communityChartData,
-} from "../community-health-data";
+} from "../data-files/community-health-data";
 import CampaignActivity from "@/components/campaign-activity";
 import FooterPanel from "@/components/footer/footer";
 import GlassLayout from "@/components/layouts/glass-layout";
@@ -25,9 +25,12 @@ const CommunityHealth = () => {
   const [showCumulative, setShowCumulative] = useState(false);
   const [gearOpen, setGearOpen] = useState(false);
 
-  const rawCounts = communityChartData.map((d) => d.count);
-  const counts = showCumulative ? getCumulativeData(rawCounts) : rawCounts;
-  const dates = communityChartData.map((d) => d.date);
+  const rawCounts = useMemo(() => communityChartData.map((d) => d.count), []);
+  const dates = useMemo(() => communityChartData.map((d) => d.date), []);
+  const counts = useMemo(
+    () => (showCumulative ? getCumulativeData(rawCounts) : rawCounts),
+    [rawCounts, showCumulative],
+  );
 
   const chartProps = {
     data: counts,
@@ -41,6 +44,7 @@ const CommunityHealth = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col space-y-8 p-6 pb-12">
+      {/* Header & Summary */}
       <div className="flex h-max w-full gap-5">
         <div className="relative flex w-full flex-col items-start justify-start lg:w-[60%]">
           <div className="w-max">
@@ -61,13 +65,12 @@ const CommunityHealth = () => {
         />
       </div>
 
-      {/* Chart Display with Glass Panel */}
+      {/* Chart Panel */}
       <GlassLayout
         className="relative mt-4 w-full"
         backgroundClassName="bg-white/10 blur-[10px]"
         contentClassName="backdrop-blur-[32px] h-[350px]"
       >
-        {/* Gear Icon */}
         <button
           onClick={() => setGearOpen((prev) => !prev)}
           className={cn(
@@ -78,7 +81,6 @@ const CommunityHealth = () => {
           <BsGearFill className="h-4 w-4" />
         </button>
 
-        {/* Config Panel */}
         {gearOpen && (
           <ChartGearBox
             onClose={() => setGearOpen(false)}
@@ -89,7 +91,6 @@ const CommunityHealth = () => {
           />
         )}
 
-        {/* Chart */}
         {chartType === "line" && (
           <LineChart {...chartProps} isCumulative={showCumulative} />
         )}
@@ -98,11 +99,13 @@ const CommunityHealth = () => {
         )}
       </GlassLayout>
 
+      {/* Mobile Campaigns */}
       <CampaignActivity
         data={campaignActivityData}
         className="flex lg:hidden"
       />
-      {/* Footer Panel */}
+
+      {/* Footer */}
       <FooterPanel data={footerSuggestionsAndAnalyticsData} />
     </div>
   );
