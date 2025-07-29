@@ -9,11 +9,24 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Campaign Retention & Growth Dashboard",
+  title: "Community Pulse – Creator Analytics Dashboard",
   description:
-    "A modern, glassmorphic analytics dashboard visualizing user growth, campaign retention, and engagement trends with interactive line/bar charts and dynamic tooltips — built using Next.js and ApexCharts.",
+    "Community Pulse is a modern analytics dashboard for SMS-based creators, showcasing campaign growth, churn, and retention insights using interactive line/bar charts, dynamic tooltips, and glassmorphic UI. Built with Next.js, Tailwind CSS, and ApexCharts. Features include summary stats, campaign breakdowns, AI-assisted suggestions, and mobile-responsive design.",
   icons: {
     icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Community Pulse – Creator Analytics Dashboard",
+    description:
+      "Visualize campaign growth, churn, and stickiness in a modern glass UI. Powered by Next.js and ApexCharts.",
+    url: "https://fluency-assessment.vercel.app/",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Community Pulse – Creator Analytics Dashboard",
+    description:
+      "SMS campaign analytics made beautiful — track retention, churn, and growth with interactive visualizations.",
   },
 };
 

@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --breakpoint-xs: 480px;
 
@@ -196,18 +191,6 @@
 .v-no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
 }
 
 body {
