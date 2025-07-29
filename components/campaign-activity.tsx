@@ -27,7 +27,7 @@ export default function CampaignActivity({
 
         <div className="border-secondary scrollbar h-full overflow-x-auto rounded-xl border bg-white/30 p-3 sm:p-4">
           <div
-            className="mt-2 flex w-full gap-10 whitespace-nowrap"
+            className="mt-2 flex w-full justify-between gap-10 whitespace-nowrap"
             role="table"
             aria-label="Campaign Activity Table"
           >
@@ -77,7 +77,7 @@ export default function CampaignActivity({
 
             {/* New Users Column */}
             <div
-              className="flex w-max flex-col items-end text-sm font-light sm:text-base"
+              className="flex w-max flex-col items-end pr-3 text-sm font-light sm:pr-0 sm:text-base"
               role="columnheader"
               aria-label="New Users"
             >
